@@ -8,6 +8,7 @@ namespace SimpleCopy
     {
         private string sourceDirectory;
         private string destinationDirectory;
+        private RoboCommand copy;
 
         public CopyForm(string source, string destination)
         {
@@ -19,44 +20,169 @@ namespace SimpleCopy
 
         private void CopyForm_Load(object sender, EventArgs e)
         {
-            RoboCommand backup = new RoboCommand();
+            copy = new RoboCommand();
 
-            // events
-            backup.OnFileProcessed += backup_OnFileProcessed;
-            backup.OnCommandCompleted += backup_OnCommandCompleted;
+            // event handlers
+            copy.OnCommandError += Copy_OnCommandError;
+            copy.OnError += Copy_OnError;
+            copy.OnCopyProgressChanged += Copy_OnCopyProgressChanged;
+            copy.OnFileProcessed += copy_OnFileProcessed;
+            copy.OnCommandCompleted += copy_OnCommandCompleted;
 
             // copy options
-            backup.CopyOptions.Source = sourceDirectory;
-            backup.CopyOptions.Destination = destinationDirectory;
-            backup.CopyOptions.CopySubdirectories = true;
-            backup.CopyOptions.UseUnbufferedIo = true;
-
-            // select options
-            backup.SelectionOptions.OnlyCopyArchiveFilesAndResetArchiveFlag = true;
+            copy.CopyOptions.Source = sourceDirectory;
+            copy.CopyOptions.Destination = destinationDirectory;
+            //
+            if (Profiles.Current.CopySubdirectoriesIncludingEmpty)
+            {
+                copy.CopyOptions.CopySubdirectoriesIncludingEmpty = true;
+            }
+            else
+            {
+                copy.CopyOptions.CopySubdirectories = Profiles.Current.CopySubdirectories;
+            }
+            //
+            if (Profiles.Current.EnableRestartMode && Profiles.Current.EnableBackupMode)
+            {
+                copy.CopyOptions.EnableRestartModeWithBackupFallback = true;
+            }
+            else
+            {
+                copy.CopyOptions.EnableRestartMode = Profiles.Current.EnableRestartMode;
+                copy.CopyOptions.EnableBackupMode = Profiles.Current.EnableBackupMode;
+            }
+            //
+            copy.CopyOptions.UseUnbufferedIo = Profiles.Current.UseUnbufferedIo;
 
             // retry options
-            backup.RetryOptions.RetryCount = 60;
-            backup.RetryOptions.RetryWaitTime = 10;
+            copy.RetryOptions.RetryCount = 60;
+            copy.RetryOptions.RetryWaitTime = 10;
 
-            backup.Start();
+            copy.Start();
+
+            button2.Enabled = true;
         }
 
-        void backup_OnFileProcessed(object sender, FileProcessedEventArgs e)
+        private void Copy_OnCommandError(object sender, RoboSharp.ErrorEventArgs e)
+        {
+            BeginInvoke((Action)(() =>
+            {
+                MessageBox.Show(e.Error.ToString());
+            }));
+        }
+
+        private void Copy_OnError(object sender, RoboSharp.ErrorEventArgs e)
+        {
+            BeginInvoke((Action)(() =>
+            {
+                MessageBox.Show(e.Error.ToString());
+            }));
+        }
+
+        private void Copy_OnCopyProgressChanged(object sender, CopyProgressEventArgs e)
+        {
+            BeginInvoke((Action)(() =>
+            {
+                progressBar1.Value = (int)e.CurrentFileProgress;
+            }));
+        }
+
+        private void copy_OnFileProcessed(object sender, FileProcessedEventArgs e)
         {
             BeginInvoke((Action)(() =>
             {
                 CurrentOperation.Text = e.ProcessedFile.FileClass;
                 CurrentFile.Text = e.ProcessedFile.Name;
-                CurrentSize.Text = e.ProcessedFile.Size.ToString();
+                CurrentSize.Text = GetBytesReadable(e.ProcessedFile.Size);
             }));
         }
 
-        void backup_OnCommandCompleted(object sender, RoboCommandCompletedEventArgs e)
+        private void copy_OnCommandCompleted(object sender, RoboCommandCompletedEventArgs e)
         {
             BeginInvoke((Action)(() =>
             {
-                MessageBox.Show("Backup Complete!");
+                button2.Enabled = false;
+
+                MessageBox.Show("Copy completed!");
+
+                Close();
             }));
+        }
+
+        private void CopyForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            copy.OnCopyProgressChanged -= Copy_OnCopyProgressChanged;
+            copy.OnFileProcessed -= copy_OnFileProcessed;
+            copy.OnCommandCompleted -= copy_OnCommandCompleted;
+
+            copy.Stop();
+
+            copy.Dispose();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (copy.IsPaused)
+            {
+                copy.Resume();
+
+                button2.Text = "Pause";
+            }
+            else
+            {
+                copy.Pause();
+
+                button2.Text = "Resume";
+            }
+        }
+
+        // Returns the human-readable file size for an arbitrary, 64-bit file size 
+        // The default format is "0.### XB", e.g. "4.2 KB" or "1.434 GB"
+        public string GetBytesReadable(long i)
+        {
+            // Get absolute value
+            long absolute_i = (i < 0 ? -i : i);
+            // Determine the suffix and readable value
+            string suffix;
+            double readable;
+            if (absolute_i >= 0x1000000000000000) // Exabyte
+            {
+                suffix = "EB";
+                readable = (i >> 50);
+            }
+            else if (absolute_i >= 0x4000000000000) // Petabyte
+            {
+                suffix = "PB";
+                readable = (i >> 40);
+            }
+            else if (absolute_i >= 0x10000000000) // Terabyte
+            {
+                suffix = "TB";
+                readable = (i >> 30);
+            }
+            else if (absolute_i >= 0x40000000) // Gigabyte
+            {
+                suffix = "GB";
+                readable = (i >> 20);
+            }
+            else if (absolute_i >= 0x100000) // Megabyte
+            {
+                suffix = "MB";
+                readable = (i >> 10);
+            }
+            else if (absolute_i >= 0x400) // Kilobyte
+            {
+                suffix = "KB";
+                readable = i;
+            }
+            else
+            {
+                return i.ToString("0 B"); // Byte
+            }
+            // Divide by 1024 to get fractional value
+            readable = (readable / 1024);
+            // Return formatted number with suffix
+            return readable.ToString("0.### ") + suffix;
         }
     }
 }
