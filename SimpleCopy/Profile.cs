@@ -51,9 +51,37 @@ namespace SimpleCopy
                 setting = _xmlDocument.CreateElement("UseUnbufferedIo");
                 setting.InnerText = "False";
                 profile.AppendChild(setting);
+                //
+                setting = _xmlDocument.CreateElement("EnableEfsRawMode");
+                setting.InnerText = "False";
+                profile.AppendChild(setting);
+                //
+                setting = _xmlDocument.CreateElement("Mirror");
+                setting.InnerText = "True";
+                profile.AppendChild(setting);
+                //
+                setting = _xmlDocument.CreateElement("Purge");
+                setting.InnerText = "False";
+                profile.AppendChild(setting);
+                //
+                setting = _xmlDocument.CreateElement("FileFilter");
+                setting.InnerText = "*.*";
+                profile.AppendChild(setting);
 
                 _xmlDocument.Save(filename);
             }
+        }
+
+        private string _get(string elementName)
+        {
+            return _xmlDocument.SelectSingleNode("/Profile/" + elementName).InnerText;
+        }
+
+        private void _set(string elementName, string value)
+        { 
+            _xmlDocument.SelectSingleNode("/Profile/" + elementName).InnerText = value;
+
+            _xmlDocument.Save(filename);
         }
 
         public string Source
@@ -66,6 +94,12 @@ namespace SimpleCopy
         {
             get { return _get("Destination"); }
             set { _set("Destination", value); }
+        }
+
+        public string FileFilter
+        {
+            get { return _get("FileFilter"); }
+            set { _set("FileFilter", value); }
         }
 
         public bool CopySubdirectories
@@ -98,16 +132,22 @@ namespace SimpleCopy
             set { _set("UseUnbufferedIo", value.ToString()); }
         }
 
-        private string _get(string elementName)
+        public bool EnableEfsRawMode
         {
-            return _xmlDocument.SelectSingleNode("/Profile/" + elementName).InnerText;
+            get { return Convert.ToBoolean(_get("EnableEfsRawMode")); }
+            set { _set("EnableEfsRawMode", value.ToString()); }
         }
 
-        private void _set(string elementName, string value)
+        public bool Mirror
         {
-            _xmlDocument.SelectSingleNode("/Profile/" + elementName).InnerText = value;
+            get { return Convert.ToBoolean(_get("Mirror")); }
+            set { _set("Mirror", value.ToString()); }
+        }
 
-            _xmlDocument.Save(filename);
+        public bool Purge
+        {
+            get { return Convert.ToBoolean(_get("Purge")); }
+            set { _set("Purge", value.ToString()); }
         }
     }
 }

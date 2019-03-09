@@ -294,6 +294,7 @@
             this.checkBox2.TabIndex = 1;
             this.checkBox2.Text = "Copy Subdirectories including empty";
             this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // textBox1
             // 
@@ -301,6 +302,8 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(132, 20);
             this.textBox1.TabIndex = 2;
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label3
             // 
@@ -320,6 +323,7 @@
             this.checkBox3.TabIndex = 4;
             this.checkBox3.Text = "Restartable Mode";
             this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // checkBox4
             // 
@@ -330,6 +334,7 @@
             this.checkBox4.TabIndex = 5;
             this.checkBox4.Text = "Backup Mode";
             this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
             // 
             // checkBox5
             // 
@@ -340,6 +345,7 @@
             this.checkBox5.TabIndex = 6;
             this.checkBox5.Text = "Unbuffered I/O";
             this.checkBox5.UseVisualStyleBackColor = true;
+            this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
             // 
             // checkBox6
             // 
@@ -350,6 +356,7 @@
             this.checkBox6.TabIndex = 7;
             this.checkBox6.Text = "EFS RAW for encrypted files";
             this.checkBox6.UseVisualStyleBackColor = true;
+            this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
             // 
             // checkBox7
             // 
@@ -360,6 +367,7 @@
             this.checkBox7.TabIndex = 8;
             this.checkBox7.Text = "Mirror Directory";
             this.checkBox7.UseVisualStyleBackColor = true;
+            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged);
             // 
             // checkBox8
             // 
@@ -370,6 +378,7 @@
             this.checkBox8.TabIndex = 9;
             this.checkBox8.Text = "Purge";
             this.checkBox8.UseVisualStyleBackColor = true;
+            this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
             // 
             // MainForm
             // 

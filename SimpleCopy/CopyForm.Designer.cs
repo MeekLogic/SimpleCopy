@@ -28,25 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.CurrentOperation = new System.Windows.Forms.Label();
             this.CurrentFile = new System.Windows.Forms.Label();
             this.CurrentSize = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // CurrentOperation
-            // 
-            this.CurrentOperation.Location = new System.Drawing.Point(13, 15);
-            this.CurrentOperation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.CurrentOperation.Name = "CurrentOperation";
-            this.CurrentOperation.Size = new System.Drawing.Size(372, 12);
-            this.CurrentOperation.TabIndex = 0;
-            this.CurrentOperation.Text = "CurrentOperation";
-            // 
             // CurrentFile
             // 
-            this.CurrentFile.Location = new System.Drawing.Point(13, 56);
+            this.CurrentFile.Location = new System.Drawing.Point(11, 38);
             this.CurrentFile.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.CurrentFile.Name = "CurrentFile";
             this.CurrentFile.Size = new System.Drawing.Size(271, 12);
@@ -55,7 +45,7 @@
             // 
             // CurrentSize
             // 
-            this.CurrentSize.Location = new System.Drawing.Point(288, 56);
+            this.CurrentSize.Location = new System.Drawing.Point(288, 38);
             this.CurrentSize.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.CurrentSize.Name = "CurrentSize";
             this.CurrentSize.Size = new System.Drawing.Size(95, 12);
@@ -65,7 +55,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(16, 30);
+            this.progressBar1.Location = new System.Drawing.Point(14, 12);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(369, 23);
             this.progressBar1.Step = 1;
@@ -74,7 +64,7 @@
             // button2
             // 
             this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(310, 72);
+            this.button2.Location = new System.Drawing.Point(308, 53);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 5;
@@ -86,12 +76,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(397, 107);
+            this.ClientSize = new System.Drawing.Size(397, 82);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.CurrentSize);
             this.Controls.Add(this.CurrentFile);
-            this.Controls.Add(this.CurrentOperation);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
@@ -106,8 +95,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label CurrentOperation;
         private System.Windows.Forms.Label CurrentFile;
         private System.Windows.Forms.Label CurrentSize;
         private System.Windows.Forms.ProgressBar progressBar1;

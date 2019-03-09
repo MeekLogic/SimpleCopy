@@ -6,16 +6,11 @@ namespace SimpleCopy
 {
     public partial class CopyForm : Form
     {
-        private string sourceDirectory;
-        private string destinationDirectory;
         private RoboCommand copy;
 
-        public CopyForm(string source, string destination)
+        public CopyForm()
         {
             InitializeComponent();
-
-            sourceDirectory = source;
-            destinationDirectory = destination;
         }
 
         private void CopyForm_Load(object sender, EventArgs e)
@@ -30,16 +25,28 @@ namespace SimpleCopy
             copy.OnCommandCompleted += copy_OnCommandCompleted;
 
             // copy options
-            copy.CopyOptions.Source = sourceDirectory;
-            copy.CopyOptions.Destination = destinationDirectory;
+            copy.CopyOptions.Source = Profiles.Current.Source;
             //
-            if (Profiles.Current.CopySubdirectoriesIncludingEmpty)
+            copy.CopyOptions.Destination = Profiles.Current.Destination;
+            //
+            copy.CopyOptions.FileFilter = Profiles.Current.FileFilter;
+            //
+            if (Profiles.Current.Mirror)
             {
-                copy.CopyOptions.CopySubdirectoriesIncludingEmpty = true;
+                copy.CopyOptions.Mirror = true;
             }
             else
             {
-                copy.CopyOptions.CopySubdirectories = Profiles.Current.CopySubdirectories;
+                if (Profiles.Current.CopySubdirectoriesIncludingEmpty)
+                {
+                    copy.CopyOptions.CopySubdirectoriesIncludingEmpty = true;
+                }
+                else
+                {
+                    copy.CopyOptions.CopySubdirectories = Profiles.Current.CopySubdirectories;
+                }
+                //
+                copy.CopyOptions.Purge = Profiles.Current.Purge;
             }
             //
             if (Profiles.Current.EnableRestartMode && Profiles.Current.EnableBackupMode)
@@ -53,6 +60,8 @@ namespace SimpleCopy
             }
             //
             copy.CopyOptions.UseUnbufferedIo = Profiles.Current.UseUnbufferedIo;
+            //
+            copy.CopyOptions.EnableEfsRawMode = Profiles.Current.EnableEfsRawMode;
 
             // retry options
             copy.RetryOptions.RetryCount = 60;
@@ -91,8 +100,7 @@ namespace SimpleCopy
         {
             BeginInvoke((Action)(() =>
             {
-                CurrentOperation.Text = e.ProcessedFile.FileClass;
-                CurrentFile.Text = e.ProcessedFile.Name;
+                CurrentFile.Text = e.ProcessedFile.FileClass + ": " + e.ProcessedFile.Name;
                 CurrentSize.Text = GetBytesReadable(e.ProcessedFile.Size);
             }));
         }
@@ -101,11 +109,11 @@ namespace SimpleCopy
         {
             BeginInvoke((Action)(() =>
             {
+                progressBar1.Value = 100;
+
                 button2.Enabled = false;
 
-                MessageBox.Show("Copy completed!");
-
-                Close();
+                Text = "Finished";
             }));
         }
 
