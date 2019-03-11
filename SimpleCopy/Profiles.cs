@@ -1,5 +1,5 @@
-﻿using System.Xml;
-using System.IO;
+﻿using System.IO;
+using System.Xml;
 
 namespace SimpleCopy
 {
@@ -43,8 +43,6 @@ namespace SimpleCopy
             {
                 // Load profiles
                 _xmlDocument.Load(_directory + _filename);
-
-                Current = Get("Last");
             }
             else
             {
@@ -52,32 +50,15 @@ namespace SimpleCopy
                 _xmlDocument.AppendChild(_xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null));
                 _xmlDocument.AppendChild(_xmlDocument.CreateElement("Profiles"));
 
-                Current = Create("Last");
-            }
-        }
-
-        public static void Save()
-        {
-            _xmlDocument.Save(_directory + _filename);
-        }
-
-        public static Profile Get(string name = "Last")
-        {
-            XmlNode filename = _xmlDocument.SelectSingleNode("/Profiles/Profile[@Name='" + name + "']/Filename");
-
-            if (!File.Exists(_directory + "profiles/" + filename.InnerText))
-            {
-                System.Windows.Forms.MessageBox.Show("Failed to load profile: " + name);
-
-                return null;
+                Create("last");
             }
 
-            return new Profile(_directory + "profiles/" + filename.InnerText);
+            Load("last");
         }
 
         public static Profile Create(string name)
         {
-            string filename = name + ".xml";
+            string filename = Utilities.SanitizeFilename(name) + ".xml";
 
             Profile profile = new Profile(_directory + "profiles/" + filename);
             
@@ -91,9 +72,50 @@ namespace SimpleCopy
 
             _xmlDocument.SelectSingleNode("/Profiles").AppendChild(profileElement);
 
-            Save();
+            _xmlDocument.Save(_directory + _filename);
 
             return profile;
+        }
+
+        public static Profile Get(string name)
+        {
+            XmlNode filename = _xmlDocument.SelectSingleNode("/Profiles/Profile[@Name='" + name + "']/Filename");
+
+            if (!File.Exists(_directory + "profiles/" + filename.InnerText))
+            {
+                return null;
+            }
+
+            return new Profile(_directory + "profiles/" + filename.InnerText);
+        }
+
+        public static Profile[] All()
+        {
+            XmlNodeList nodes = _xmlDocument.SelectNodes("/Profiles/Profile");
+
+            Profile[] _profiles = new Profile[nodes.Count];
+
+            int i = 0;
+            foreach (XmlNode node in nodes)
+            {
+                _profiles[i++] = Get(node.Attributes["Name"].InnerText);
+            }
+
+            return _profiles;
+        }
+
+        public static bool Load(string name = "last")
+        {
+            Profile _profile = Get(name);
+
+            if (_profile == null)
+            {
+                return false;
+            }
+
+            Current = _profile;
+
+            return true;
         }
     }
 }

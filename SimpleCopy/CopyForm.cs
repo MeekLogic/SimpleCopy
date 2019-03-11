@@ -100,8 +100,19 @@ namespace SimpleCopy
         {
             BeginInvoke((Action)(() =>
             {
-                CurrentFile.Text = e.ProcessedFile.FileClass + ": " + e.ProcessedFile.Name;
-                CurrentSize.Text = GetBytesReadable(e.ProcessedFile.Size);
+                if (e.ProcessedFile.FileClassType == FileClassType.SystemMessage)
+                {
+                    SystemMessage.Text = e.ProcessedFile.Name;
+                }
+                else
+                {
+                    CurrentFile.Text = e.ProcessedFile.FileClass + ": " + e.ProcessedFile.Name;
+
+                    if (e.ProcessedFile.FileClassType == FileClassType.File)
+                    {
+                        CurrentSize.Text = GetBytesReadable(e.ProcessedFile.Size);
+                    }
+                }
             }));
         }
 
