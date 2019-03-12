@@ -1,153 +1,118 @@
-﻿using System;
+﻿using System.Xml.Serialization;
 using System.IO;
-using System.Xml;
 
 namespace SimpleCopy
 {
-    class Profile
+    public class Profile
     {
-        private string filename;
-        private XmlDocument _xmlDocument;
+        private static XmlSerializer SerializerXML = new XmlSerializer(typeof(Profile));
 
-        public Profile(string filename)
+        public static Profile FromFile(string FileName)
         {
-            this.filename = filename;
+            Profile _Profile;
 
-            _xmlDocument = new XmlDocument();
-
-            // Profile initialized?
-            if (File.Exists(this.filename))
+            using (FileStream _FileStream = File.Open(FileName, FileMode.Open))
             {
-                _xmlDocument.Load(this.filename);
+                _Profile = (Profile)SerializerXML.Deserialize(_FileStream);
             }
-            else
+
+            _Profile.FileName = FileName;
+
+            return _Profile;
+        }
+
+        public void Save()
+        {
+            // Do not attempt to save during initialization (terrible implementation, but it works)
+            if (!Initialized) return;
+
+            using (FileStream _FileStream = File.Open(FileName, FileMode.Truncate))
             {
-                // Create profile xml
-                _xmlDocument.AppendChild(_xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null));
-
-                XmlElement profile = _xmlDocument.CreateElement("Profile");
-                _xmlDocument.AppendChild(profile);
-
-                profile.AppendChild(_xmlDocument.CreateElement("Source"));
-                //
-                profile.AppendChild(_xmlDocument.CreateElement("Destination"));
-                //
-                XmlElement setting = _xmlDocument.CreateElement("CopySubdirectories");
-                setting.InnerText = "True";
-                profile.AppendChild(setting);
-                //
-                setting = _xmlDocument.CreateElement("CopySubdirectoriesIncludingEmpty");
-                setting.InnerText = "False";
-                profile.AppendChild(setting);
-                //
-                setting = _xmlDocument.CreateElement("EnableRestartMode");
-                setting.InnerText = "False";
-                profile.AppendChild(setting);
-                //
-                setting = _xmlDocument.CreateElement("EnableBackupMode");
-                setting.InnerText = "False";
-                profile.AppendChild(setting);
-                //
-                setting = _xmlDocument.CreateElement("UseUnbufferedIo");
-                setting.InnerText = "False";
-                profile.AppendChild(setting);
-                //
-                setting = _xmlDocument.CreateElement("EnableEfsRawMode");
-                setting.InnerText = "False";
-                profile.AppendChild(setting);
-                //
-                setting = _xmlDocument.CreateElement("Mirror");
-                setting.InnerText = "True";
-                profile.AppendChild(setting);
-                //
-                setting = _xmlDocument.CreateElement("Purge");
-                setting.InnerText = "False";
-                profile.AppendChild(setting);
-                //
-                setting = _xmlDocument.CreateElement("FileFilter");
-                setting.InnerText = "*.*";
-                profile.AppendChild(setting);
-
-                _xmlDocument.Save(filename);
+                SerializerXML.Serialize(_FileStream, this);
             }
         }
 
-        private string _get(string elementName)
+        [XmlIgnore]
+        public bool Initialized
         {
-            return _xmlDocument.SelectSingleNode("/Profile/" + elementName).InnerText;
+            get { return (!string.IsNullOrEmpty(FileName)); }
         }
 
-        private void _set(string elementName, string value)
-        { 
-            _xmlDocument.SelectSingleNode("/Profile/" + elementName).InnerText = value;
+        [XmlIgnore]
+        public string FileName { get; set; }
 
-            _xmlDocument.Save(filename);
-        }
+        #region XML Elements
 
+        // Default values
+        private string _Source;
+        private string _Destination;
+        private string _FileFilter = "*.*";
+        private bool _CopySubdirectories = true;
+        private bool _CopySubdirectoriesIncludingEmpty = false;
+        private bool _EnableRestartMode = false;
+        private bool _EnableBackupMode = false;
+        private bool _UseUnbufferedIo = false;
+        private bool _EnableEfsRawMode = false;
+        private bool _Mirror = false;
+        private bool _Purge = false;
+
+        // Getter/Setters
         public string Source
         {
-            get { return _get("Source"); }
-            set { _set("Source", value); }
+            get { return _Source; }
+            set { _Source = value; Save(); }
         }
-
         public string Destination
         {
-            get { return _get("Destination"); }
-            set { _set("Destination", value); }
+            get { return _Destination; }
+            set { _Destination = value; Save(); }
         }
-
         public string FileFilter
         {
-            get { return _get("FileFilter"); }
-            set { _set("FileFilter", value); }
+            get { return _FileFilter; }
+            set { _FileFilter = value; Save(); }
         }
-
         public bool CopySubdirectories
         {
-            get { return Convert.ToBoolean(_get("CopySubdirectories")); }
-            set { _set("CopySubdirectories", value.ToString()); }
+            get { return _CopySubdirectories; }
+            set { _CopySubdirectories = value; Save(); }
         }
-
         public bool CopySubdirectoriesIncludingEmpty
         {
-            get { return Convert.ToBoolean(_get("CopySubdirectoriesIncludingEmpty")); }
-            set { _set("CopySubdirectoriesIncludingEmpty", value.ToString()); }
+            get { return _CopySubdirectoriesIncludingEmpty; }
+            set { _CopySubdirectoriesIncludingEmpty = value; Save(); }
         }
-
         public bool EnableRestartMode
         {
-            get { return Convert.ToBoolean(_get("EnableRestartMode")); }
-            set { _set("EnableRestartMode", value.ToString()); }
+            get { return _EnableRestartMode; }
+            set { _EnableRestartMode = value; Save(); }
         }
-
         public bool EnableBackupMode
         {
-            get { return Convert.ToBoolean(_get("EnableBackupMode")); }
-            set { _set("EnableBackupMode", value.ToString()); }
+            get { return _EnableBackupMode; }
+            set { _EnableBackupMode = value; Save(); }
         }
-
         public bool UseUnbufferedIo
         {
-            get { return Convert.ToBoolean(_get("UseUnbufferedIo")); }
-            set { _set("UseUnbufferedIo", value.ToString()); }
+            get { return _UseUnbufferedIo; }
+            set { _UseUnbufferedIo = value; Save(); }
         }
-
         public bool EnableEfsRawMode
         {
-            get { return Convert.ToBoolean(_get("EnableEfsRawMode")); }
-            set { _set("EnableEfsRawMode", value.ToString()); }
+            get { return _EnableEfsRawMode; }
+            set { _EnableEfsRawMode = value; Save(); }
         }
-
         public bool Mirror
         {
-            get { return Convert.ToBoolean(_get("Mirror")); }
-            set { _set("Mirror", value.ToString()); }
+            get { return _Mirror; }
+            set { _Mirror = value; Save(); }
         }
-
         public bool Purge
         {
-            get { return Convert.ToBoolean(_get("Purge")); }
-            set { _set("Purge", value.ToString()); }
+            get { return _Purge; }
+            set { _Purge = value; Save(); }
         }
+
+        #endregion
     }
 }

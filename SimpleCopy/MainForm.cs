@@ -200,6 +200,13 @@ namespace SimpleCopy
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                if (Path.GetExtension(openFileDialog1.FileName) != "xml")
+                {
+                    MessageBox.Show("Not a valid profile. File must have .xml extension.");
+
+                    return;
+                }
+
                 Profiles.LoadFile(openFileDialog1.FileName);
             }
         }

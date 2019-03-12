@@ -1,39 +1,38 @@
 ﻿using System.IO;
 using System.Xml;
 using System.Reflection;
+using System.Xml.Serialization;
 
 namespace SimpleCopy
 {
     static class Profiles
     {
-        private static string WorkingDir;
         private static string ProfilesDir = "profiles";
-        private static string ProfilesFileName = "profiles.xml";
-
-        private static XmlDocument ProfilesXML;
+        private static string ProfilesFile = "profiles.xml";
+        private static XmlDocument ProfilesXML = new XmlDocument();
 
         public static Profile Current { get; private set; }
 
         public static void Init()
         {
-            WorkingDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\";
-
-            // Create XmlDocument class
-            ProfilesXML = new XmlDocument();
+            // Set default paths
+            string WorkDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\";
+            ProfilesDir = WorkDir + ProfilesDir;
+            ProfilesFile = WorkDir + ProfilesFile;
 
             // Profiles folder missing?
-            if (!Directory.Exists(WorkingDir + ProfilesDir))
+            if (!Directory.Exists(ProfilesDir))
             {
-                Directory.CreateDirectory(WorkingDir + ProfilesDir);
+                Directory.CreateDirectory(ProfilesDir);
             }
 
             ProfilesDir += "\\";
 
             // Already initialized?
-            if (File.Exists(WorkingDir + ProfilesFileName))
+            if (File.Exists(ProfilesFile))
             {
                 // Load profiles
-                ProfilesXML.Load(WorkingDir + ProfilesFileName);
+                ProfilesXML.Load(ProfilesFile);
             }
             else
             {
@@ -49,85 +48,58 @@ namespace SimpleCopy
             Load("last");
         }
 
-        public static Profile Create(string Name)
+        public static void Create(string Name, string FileName = null)
         {
-            // Generate safe file name
-            string FileName = Utilities.SanitizeFileName(Name) + ".xml";
+            // Default directory?
+            if (string.IsNullOrEmpty(FileName))
+            {
+                FileName = ProfilesDir + Utilities.SanitizeFileName(Name) + ".xml";
+            }
 
-            // Create new profile
-            Profile profile = new Profile(WorkingDir + ProfilesDir + FileName);
-            
-            // Update profiles
-            XmlElement profileElement = ProfilesXML.CreateElement("Profile");
-            profileElement.SetAttribute("Name", Name);
+            // Create Profile XML file
+            XmlDocument ProfileXML = new XmlDocument();
+            ProfileXML.AppendChild(ProfileXML.CreateXmlDeclaration("1.0", "UTF-8", null));
+            ProfileXML.AppendChild(ProfileXML.CreateElement("Profile"));
+            ProfileXML.Save(FileName);
 
-            XmlElement file = ProfilesXML.CreateElement("FileName");
-            file.InnerText = FileName;
-            profileElement.AppendChild(file);
+            // Create Profile element (adding Name as an attribute)
+            XmlElement ProfileXMLElement = ProfilesXML.CreateElement("Profile");
+            ProfileXMLElement.SetAttribute("Name", Name);
 
-            ProfilesXML.SelectSingleNode("/Profiles").AppendChild(profileElement);
+            // Create FileName element in Profile
+            XmlElement FileXML = ProfilesXML.CreateElement("File");
+            FileXML.InnerText = FileName;
+            ProfileXMLElement.AppendChild(FileXML);
 
-            ProfilesXML.Save(WorkingDir + ProfilesFileName);
+            // Append new Profile element to ProfilesXML
+            ProfilesXML.SelectSingleNode("/Profiles").AppendChild(ProfileXMLElement);
 
-            return profile;
+            // Save Profiles XML
+            ProfilesXML.Save(ProfilesFile);
         }
 
-        public static Profile Get(string name)
+        public static bool Load(string Name)
         {
-            XmlNode FileNameXML = ProfilesXML.SelectSingleNode("/Profiles/Profile[@Name='" + name + "']/FileName");
+            XmlNode FileXMLElement = ProfilesXML.SelectSingleNode("/Profiles/Profile[@Name='" + Name + "']/File");
 
             // Profile exists in profiles?
-            if (FileNameXML == null)
-            {
-                return null;
-            }
-
-            // Profile file exists?
-            if (!File.Exists(WorkingDir + ProfilesDir + FileNameXML.InnerText))
-            {
-                return null;
-            }
-
-            return new Profile(WorkingDir + ProfilesDir + FileNameXML.InnerText);
-        }
-
-        public static Profile[] All()
-        {
-            XmlNodeList nodes = ProfilesXML.SelectNodes("/Profiles/Profile");
-
-            Profile[] _profiles = new Profile[nodes.Count];
-
-            int i = 0;
-            foreach (XmlNode node in nodes)
-            {
-                _profiles[i++] = Get(node.Attributes["Name"].InnerText);
-            }
-
-            return _profiles;
-        }
-
-        public static bool Load(string name)
-        {
-            Profile _profile = Get(name);
-
-            if (_profile == null)
+            if (FileXMLElement == null)
             {
                 return false;
             }
 
-            Current = _profile;
-
-            return true;
+            return LoadFile(FileXMLElement.InnerText);
         }
 
         public static bool LoadFile(string FileName)
         {
-            if (Path.GetExtension(FileName) != "xml")
+            // Profile exists?
+            if (!File.Exists(FileName))
             {
                 return false;
             }
 
-            Current = new Profile(FileName);
+            Current = Profile.FromFile(FileName);
 
             return true;
         }
