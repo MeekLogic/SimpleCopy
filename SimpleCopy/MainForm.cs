@@ -200,7 +200,7 @@ namespace SimpleCopy
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                
+                Profiles.LoadFile(openFileDialog1.FileName);
             }
         }
 

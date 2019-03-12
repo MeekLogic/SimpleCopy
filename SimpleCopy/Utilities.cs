@@ -11,7 +11,7 @@ namespace SimpleCopy
         private static readonly Regex removeInvalidChars = new Regex($"[{Regex.Escape(new string(Path.GetInvalidFileNameChars()))}]",
             RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
-        public static string SanitizeFilename(string filename, string replacement = "_")
+        public static string SanitizeFileName(string filename, string replacement = "_")
         {
             if (String.IsNullOrEmpty(filename))
             {

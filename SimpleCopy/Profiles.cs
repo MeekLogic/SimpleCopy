@@ -1,97 +1,99 @@
 ﻿using System.IO;
 using System.Xml;
+using System.Reflection;
 
 namespace SimpleCopy
 {
     static class Profiles
     {
-        private static string _directory;
-        private static string _filename;
-        private static XmlDocument _xmlDocument;
+        private static string WorkingDir;
+        private static string ProfilesDir = "profiles";
+        private static string ProfilesFileName = "profiles.xml";
+
+        private static XmlDocument ProfilesXML;
 
         public static Profile Current { get; private set; }
 
-        public static void Init(string directory = null, string filename = "profiles.xml")
+        public static void Init()
         {
-            // Default directory?
-            if (string.IsNullOrEmpty(directory))
-            {
-                directory = Directory.GetCurrentDirectory();
-            }
-
-            // Ensure directory ends with slash
-            if (!directory.EndsWith("/"))
-            {
-                directory += "/";
-            }
-
-            // Set class variables
-            _directory = directory;
-            _filename = filename;
+            WorkingDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\";
 
             // Create XmlDocument class
-            _xmlDocument = new XmlDocument();
+            ProfilesXML = new XmlDocument();
 
             // Profiles folder missing?
-            if (!Directory.Exists(_directory + "profiles"))
+            if (!Directory.Exists(WorkingDir + ProfilesDir))
             {
-                Directory.CreateDirectory(_directory + "profiles");
+                Directory.CreateDirectory(WorkingDir + ProfilesDir);
             }
 
+            ProfilesDir += "\\";
+
             // Already initialized?
-            if (File.Exists(_directory + _filename))
+            if (File.Exists(WorkingDir + ProfilesFileName))
             {
                 // Load profiles
-                _xmlDocument.Load(_directory + _filename);
+                ProfilesXML.Load(WorkingDir + ProfilesFileName);
             }
             else
             {
                 // Create profiles.xml
-                _xmlDocument.AppendChild(_xmlDocument.CreateXmlDeclaration("1.0", "UTF-8", null));
-                _xmlDocument.AppendChild(_xmlDocument.CreateElement("Profiles"));
+                ProfilesXML.AppendChild(ProfilesXML.CreateXmlDeclaration("1.0", "UTF-8", null));
+                ProfilesXML.AppendChild(ProfilesXML.CreateElement("Profiles"));
 
+                // Create "last" profile (and save)
                 Create("last");
             }
 
+            // Load "last" profile
             Load("last");
         }
 
-        public static Profile Create(string name)
+        public static Profile Create(string Name)
         {
-            string filename = Utilities.SanitizeFilename(name) + ".xml";
+            // Generate safe file name
+            string FileName = Utilities.SanitizeFileName(Name) + ".xml";
 
-            Profile profile = new Profile(_directory + "profiles/" + filename);
+            // Create new profile
+            Profile profile = new Profile(WorkingDir + ProfilesDir + FileName);
             
             // Update profiles
-            XmlElement profileElement = _xmlDocument.CreateElement("Profile");
-            profileElement.SetAttribute("Name", name);
+            XmlElement profileElement = ProfilesXML.CreateElement("Profile");
+            profileElement.SetAttribute("Name", Name);
 
-            XmlElement file = _xmlDocument.CreateElement("Filename");
-            file.InnerText = filename;
+            XmlElement file = ProfilesXML.CreateElement("FileName");
+            file.InnerText = FileName;
             profileElement.AppendChild(file);
 
-            _xmlDocument.SelectSingleNode("/Profiles").AppendChild(profileElement);
+            ProfilesXML.SelectSingleNode("/Profiles").AppendChild(profileElement);
 
-            _xmlDocument.Save(_directory + _filename);
+            ProfilesXML.Save(WorkingDir + ProfilesFileName);
 
             return profile;
         }
 
         public static Profile Get(string name)
         {
-            XmlNode filename = _xmlDocument.SelectSingleNode("/Profiles/Profile[@Name='" + name + "']/Filename");
+            XmlNode FileNameXML = ProfilesXML.SelectSingleNode("/Profiles/Profile[@Name='" + name + "']/FileName");
 
-            if (!File.Exists(_directory + "profiles/" + filename.InnerText))
+            // Profile exists in profiles?
+            if (FileNameXML == null)
             {
                 return null;
             }
 
-            return new Profile(_directory + "profiles/" + filename.InnerText);
+            // Profile file exists?
+            if (!File.Exists(WorkingDir + ProfilesDir + FileNameXML.InnerText))
+            {
+                return null;
+            }
+
+            return new Profile(WorkingDir + ProfilesDir + FileNameXML.InnerText);
         }
 
         public static Profile[] All()
         {
-            XmlNodeList nodes = _xmlDocument.SelectNodes("/Profiles/Profile");
+            XmlNodeList nodes = ProfilesXML.SelectNodes("/Profiles/Profile");
 
             Profile[] _profiles = new Profile[nodes.Count];
 
@@ -104,7 +106,7 @@ namespace SimpleCopy
             return _profiles;
         }
 
-        public static bool Load(string name = "last")
+        public static bool Load(string name)
         {
             Profile _profile = Get(name);
 
@@ -114,6 +116,18 @@ namespace SimpleCopy
             }
 
             Current = _profile;
+
+            return true;
+        }
+
+        public static bool LoadFile(string FileName)
+        {
+            if (Path.GetExtension(FileName) != "xml")
+            {
+                return false;
+            }
+
+            Current = new Profile(FileName);
 
             return true;
         }
