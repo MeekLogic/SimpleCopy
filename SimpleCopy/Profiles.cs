@@ -8,11 +8,29 @@ namespace SimpleCopy
     {
         private static string ProfilesDir = "profiles";
         private static string ProfilesFile = "profiles.xml";
-        private static XmlDocument ProfilesXML = new XmlDocument();
 
-        public static Profile Current { get; private set; }
+        //
+        private static readonly XmlDocument ProfilesXML = new XmlDocument();
 
-        public static void Init()
+        //
+        private static Profile _Current;
+
+        internal static Profile Current
+        {
+            get { return _Current; }
+            private set
+            {
+                // If a Profile is already loaded, let's make sure to dispose of it's resources
+                if (Current != null)
+                {
+                    Current.Dispose();
+                }
+
+                _Current = value;
+            }
+        }
+
+        internal static void Init()
         {
             // Set default paths
             string WorkDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\";
@@ -32,6 +50,9 @@ namespace SimpleCopy
             {
                 // Load profiles
                 ProfilesXML.Load(ProfilesFile);
+
+                // Load "last" profile
+                Load("last");
             }
             else
             {
@@ -42,12 +63,9 @@ namespace SimpleCopy
                 // Create "last" profile (and save)
                 Create("last");
             }
-
-            // Load "last" profile
-            Load("last");
         }
 
-        public static void Create(string Name, string FileName = null)
+        internal static void Create(string Name, string FileName = null)
         {
             // Default directory?
             if (string.IsNullOrEmpty(FileName))
@@ -56,10 +74,7 @@ namespace SimpleCopy
             }
 
             // Create Profile XML file
-            XmlDocument ProfileXML = new XmlDocument();
-            ProfileXML.AppendChild(ProfileXML.CreateXmlDeclaration("1.0", "UTF-8", null));
-            ProfileXML.AppendChild(ProfileXML.CreateElement("Profile"));
-            ProfileXML.Save(FileName);
+            Current = Profile.Create(FileName);
 
             // Create Profile element (adding Name as an attribute)
             XmlElement ProfileXMLElement = ProfilesXML.CreateElement("Profile");
@@ -77,7 +92,7 @@ namespace SimpleCopy
             ProfilesXML.Save(ProfilesFile);
         }
 
-        public static bool Load(string Name)
+        internal static bool Load(string Name)
         {
             XmlNode FileXMLElement = ProfilesXML.SelectSingleNode("/Profiles/Profile[@Name='" + Name + "']/File");
 
@@ -90,7 +105,7 @@ namespace SimpleCopy
             return LoadFile(FileXMLElement.InnerText);
         }
 
-        public static bool LoadFile(string FileName)
+        internal static bool LoadFile(string FileName)
         {
             // Profile exists?
             if (!File.Exists(FileName))
@@ -98,7 +113,7 @@ namespace SimpleCopy
                 return false;
             }
 
-            Current = Profile.FromFile(FileName);
+            Current = Profile.Load(FileName);
 
             return true;
         }

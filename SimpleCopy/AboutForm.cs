@@ -5,12 +5,12 @@ namespace SimpleCopy
 {
     internal partial class AboutForm : Form
     {
-        public AboutForm()
+        internal AboutForm()
         {
             InitializeComponent();
         }
 
-        public static bool Open { get; set; }
+        internal static bool Open { get; set; }
 
         private void AboutForm_Load(object sender, EventArgs e)
         {

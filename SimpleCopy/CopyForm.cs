@@ -6,73 +6,96 @@ namespace SimpleCopy
 {
     internal partial class CopyForm : Form
     {
-        private RoboCommand copy;
+        private RoboCommand _RoboCommand;
 
-        public CopyForm()
+        internal CopyForm()
         {
             InitializeComponent();
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null) components.Dispose();
+
+                if (_RoboCommand != null) _RoboCommand.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
+
         private void CopyForm_Load(object sender, EventArgs e)
         {
-            copy = new RoboCommand();
+            _RoboCommand = new RoboCommand();
 
             // event handlers
-            copy.OnCommandError += Copy_OnCommandError;
-            copy.OnError += Copy_OnError;
-            copy.OnCopyProgressChanged += Copy_OnCopyProgressChanged;
-            copy.OnFileProcessed += copy_OnFileProcessed;
-            copy.OnCommandCompleted += copy_OnCommandCompleted;
+            _RoboCommand.OnCommandError += _RoboCommand_OnCommandError;
+            _RoboCommand.OnError += _RoboCommand_OnError;
+            _RoboCommand.OnCopyProgressChanged += _RoboCommand_OnCopyProgressChanged;
+            _RoboCommand.OnFileProcessed += _RoboCommand_OnFileProcessed;
+            _RoboCommand.OnCommandCompleted += _RoboCommand_OnCommandCompleted;
 
-            // copy options
-            copy.CopyOptions.Source = Profiles.Current.Source;
+            // _RoboCommand options
+            _RoboCommand.CopyOptions.Source = Profiles.Current.Source;
             //
-            copy.CopyOptions.Destination = Profiles.Current.Destination;
+            _RoboCommand.CopyOptions.Destination = Profiles.Current.Destination;
             //
-            copy.CopyOptions.FileFilter = Profiles.Current.FileFilter;
+            _RoboCommand.CopyOptions.FileFilter = Profiles.Current.FileFilter;
             //
             if (Profiles.Current.Mirror)
             {
-                copy.CopyOptions.Mirror = true;
+                _RoboCommand.CopyOptions.Mirror = true;
             }
             else
             {
                 if (Profiles.Current.CopySubdirectoriesIncludingEmpty)
                 {
-                    copy.CopyOptions.CopySubdirectoriesIncludingEmpty = true;
+                    _RoboCommand.CopyOptions.CopySubdirectoriesIncludingEmpty = true;
                 }
                 else
                 {
-                    copy.CopyOptions.CopySubdirectories = Profiles.Current.CopySubdirectories;
+                    _RoboCommand.CopyOptions.CopySubdirectories = Profiles.Current.CopySubdirectories;
                 }
                 //
-                copy.CopyOptions.Purge = Profiles.Current.Purge;
+                _RoboCommand.CopyOptions.Purge = Profiles.Current.Purge;
             }
             //
             if (Profiles.Current.EnableRestartMode && Profiles.Current.EnableBackupMode)
             {
-                copy.CopyOptions.EnableRestartModeWithBackupFallback = true;
+                _RoboCommand.CopyOptions.EnableRestartModeWithBackupFallback = true;
             }
             else
             {
-                copy.CopyOptions.EnableRestartMode = Profiles.Current.EnableRestartMode;
-                copy.CopyOptions.EnableBackupMode = Profiles.Current.EnableBackupMode;
+                _RoboCommand.CopyOptions.EnableRestartMode = Profiles.Current.EnableRestartMode;
+                _RoboCommand.CopyOptions.EnableBackupMode = Profiles.Current.EnableBackupMode;
             }
             //
-            copy.CopyOptions.UseUnbufferedIo = Profiles.Current.UseUnbufferedIo;
+            _RoboCommand.CopyOptions.UseUnbufferedIo = Profiles.Current.UseUnbufferedIo;
             //
-            copy.CopyOptions.EnableEfsRawMode = Profiles.Current.EnableEfsRawMode;
+            _RoboCommand.CopyOptions.EnableEfsRawMode = Profiles.Current.EnableEfsRawMode;
 
             // retry options
-            copy.RetryOptions.RetryCount = 60;
-            copy.RetryOptions.RetryWaitTime = 10;
+            _RoboCommand.RetryOptions.RetryCount = 60;
+            _RoboCommand.RetryOptions.RetryWaitTime = 10;
 
-            copy.Start();
+            _RoboCommand.Start();
 
-            button2.Enabled = true;
+            PauseResumeButton.Enabled = true;
         }
 
-        private void Copy_OnCommandError(object sender, RoboSharp.ErrorEventArgs e)
+        private void CopyForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _RoboCommand.OnCopyProgressChanged -= _RoboCommand_OnCopyProgressChanged;
+            _RoboCommand.OnFileProcessed -= _RoboCommand_OnFileProcessed;
+            _RoboCommand.OnCommandCompleted -= _RoboCommand_OnCommandCompleted;
+
+            _RoboCommand.Stop();
+
+            _RoboCommand.Dispose();
+        }
+
+        private void _RoboCommand_OnCommandError(object sender, RoboSharp.ErrorEventArgs e)
         {
             BeginInvoke((Action)(() =>
             {
@@ -80,7 +103,7 @@ namespace SimpleCopy
             }));
         }
 
-        private void Copy_OnError(object sender, RoboSharp.ErrorEventArgs e)
+        private void _RoboCommand_OnError(object sender, RoboSharp.ErrorEventArgs e)
         {
             BeginInvoke((Action)(() =>
             {
@@ -88,15 +111,15 @@ namespace SimpleCopy
             }));
         }
 
-        private void Copy_OnCopyProgressChanged(object sender, CopyProgressEventArgs e)
+        private void _RoboCommand_OnCopyProgressChanged(object sender, CopyProgressEventArgs e)
         {
             BeginInvoke((Action)(() =>
             {
-                progressBar1.Value = (int)e.CurrentFileProgress;
+                CurrentFileProgress.Value = (int)e.CurrentFileProgress;
             }));
         }
 
-        private void copy_OnFileProcessed(object sender, FileProcessedEventArgs e)
+        private void _RoboCommand_OnFileProcessed(object sender, FileProcessedEventArgs e)
         {
             BeginInvoke((Action)(() =>
             {
@@ -110,98 +133,38 @@ namespace SimpleCopy
 
                     if (e.ProcessedFile.FileClassType == FileClassType.File)
                     {
-                        CurrentSize.Text = GetBytesReadable(e.ProcessedFile.Size);
+                        CurrentSize.Text = Utilities.GetBytesReadable(e.ProcessedFile.Size);
                     }
                 }
             }));
         }
 
-        private void copy_OnCommandCompleted(object sender, RoboCommandCompletedEventArgs e)
+        private void _RoboCommand_OnCommandCompleted(object sender, RoboCommandCompletedEventArgs e)
         {
             BeginInvoke((Action)(() =>
             {
-                progressBar1.Value = 100;
+                CurrentFileProgress.Value = 100;
 
-                button2.Enabled = false;
+                PauseResumeButton.Enabled = false;
 
                 Text = "Finished";
             }));
         }
 
-        private void CopyForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void PauseResumeButton_Click(object sender, EventArgs e)
         {
-            copy.OnCopyProgressChanged -= Copy_OnCopyProgressChanged;
-            copy.OnFileProcessed -= copy_OnFileProcessed;
-            copy.OnCommandCompleted -= copy_OnCommandCompleted;
-
-            copy.Stop();
-
-            copy.Dispose();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (copy.IsPaused)
+            if (_RoboCommand.IsPaused)
             {
-                copy.Resume();
+                _RoboCommand.Resume();
 
-                button2.Text = "Pause";
+                PauseResumeButton.Text = "Pause";
             }
             else
             {
-                copy.Pause();
+                _RoboCommand.Pause();
 
-                button2.Text = "Resume";
+                PauseResumeButton.Text = "Resume";
             }
-        }
-
-        // Returns the human-readable file size for an arbitrary, 64-bit file size
-        // The default format is "0.### XB", e.g. "4.2 KB" or "1.434 GB"
-        public string GetBytesReadable(long i)
-        {
-            // Get absolute value
-            long absolute_i = (i < 0 ? -i : i);
-            // Determine the suffix and readable value
-            string suffix;
-            double readable;
-            if (absolute_i >= 0x1000000000000000) // Exabyte
-            {
-                suffix = "EB";
-                readable = (i >> 50);
-            }
-            else if (absolute_i >= 0x4000000000000) // Petabyte
-            {
-                suffix = "PB";
-                readable = (i >> 40);
-            }
-            else if (absolute_i >= 0x10000000000) // Terabyte
-            {
-                suffix = "TB";
-                readable = (i >> 30);
-            }
-            else if (absolute_i >= 0x40000000) // Gigabyte
-            {
-                suffix = "GB";
-                readable = (i >> 20);
-            }
-            else if (absolute_i >= 0x100000) // Megabyte
-            {
-                suffix = "MB";
-                readable = (i >> 10);
-            }
-            else if (absolute_i >= 0x400) // Kilobyte
-            {
-                suffix = "KB";
-                readable = i;
-            }
-            else
-            {
-                return i.ToString("0 B"); // Byte
-            }
-            // Divide by 1024 to get fractional value
-            readable = (readable / 1024);
-            // Return formatted number with suffix
-            return readable.ToString("0.### ") + suffix;
         }
     }
 }

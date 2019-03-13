@@ -1,13 +1,15 @@
 ﻿using System.IO;
+using System.Timers;
 using System.Xml.Serialization;
 
 namespace SimpleCopy
 {
     public class Profile
     {
-        private static XmlSerializer SerializerXML = new XmlSerializer(typeof(Profile));
+        private static readonly XmlSerializer SerializerXML = new XmlSerializer(typeof(Profile));
+        private readonly Timer SaveTimer = new Timer(1000);
 
-        public static Profile FromFile(string FileName)
+        internal static Profile Load(string FileName)
         {
             Profile _Profile;
 
@@ -23,33 +25,68 @@ namespace SimpleCopy
             return _Profile;
         }
 
-        public void Save()
+        internal static Profile Create(string FileName)
+        {
+            Profile _Profile = new Profile();
+
+            _Profile.FileName = FileName;
+
+            _Profile.Save();
+
+            return _Profile;
+        }
+
+        public Profile()
+        {
+            SaveTimer.AutoReset = false;
+            SaveTimer.Elapsed += SaveTimer_Elapsed;
+        }
+
+        internal void Dispose()
+        {
+            if (SaveTimer.Enabled)
+            {
+                SaveTimer.Stop();
+                SaveTimer_Elapsed(this, null);
+            }
+
+            SaveTimer.Dispose();
+        }
+
+        internal void Save()
         {
             // Do not attempt to save during initialization (terrible implementation, but it works)
             if (!Initialized) return;
 
+            // If timer is already running, let's stop it
+            if (SaveTimer.Enabled) SaveTimer.Stop();
+
+            //
+            SaveTimer.Start();
+        }
+
+        private void SaveTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
             // Searilize current Profile object to XML file
-            using (FileStream _FileStream = File.Open(FileName, FileMode.Truncate))
+            using (FileStream _FileStream = File.Open(FileName, FileMode.Create))
             {
                 SerializerXML.Serialize(_FileStream, this);
             }
         }
 
         [XmlIgnore]
-        public bool Initialized
+        internal bool Initialized
         {
             get { return (!string.IsNullOrEmpty(FileName)); }
         }
 
         [XmlIgnore]
-        public string FileName { get; set; }
-
-        #region XML Elements
+        internal string FileName { get; set; }
 
         // Default values
-        private string _Source;
+        private string _Source = null;
 
-        private string _Destination;
+        private string _Destination = null;
         private string _FileFilter = "*.*";
         private bool _CopySubdirectories = true;
         private bool _CopySubdirectoriesIncludingEmpty = false;
@@ -59,6 +96,15 @@ namespace SimpleCopy
         private bool _EnableEfsRawMode = false;
         private bool _Mirror = false;
         private bool _Purge = false;
+        private int _Depth = -1;
+        private string _CopyFlags = "DAT";
+        private bool _CopyFilesWithSecurity = false;
+        private bool _CopyAll = false;
+        private bool _RemoveFileInformation = false;
+        private bool _FixFileSecurityOnAllFiles = false;
+        private bool _FixFileTimesOnAllFiles = false;
+        private bool _MoveFiles = false;
+        private bool _MoveFilesAndDirectories = false;
 
         // Getter/Setters
         public string Source
@@ -127,6 +173,58 @@ namespace SimpleCopy
             set { _Purge = value; Save(); }
         }
 
-        #endregion XML Elements
+        public int Depth
+        {
+            get { return _Depth; }
+            set { _Depth = value; Save(); }
+        }
+
+        public string CopyFlags
+        {
+            get { return _CopyFlags; }
+            set { _CopyFlags = value; Save(); }
+        }
+
+        public bool CopyFilesWithSecurity
+        {
+            get { return _CopyFilesWithSecurity; }
+            set { _CopyFilesWithSecurity = value; Save(); }
+        }
+
+        public bool CopyAll
+        {
+            get { return _CopyAll; }
+            set { _CopyAll = value; Save(); }
+        }
+
+        public bool RemoveFileInformation
+        {
+            get { return _RemoveFileInformation; }
+            set { _RemoveFileInformation = value; Save(); }
+        }
+
+        public bool FixFileSecurityOnAllFiles
+        {
+            get { return _FixFileSecurityOnAllFiles; }
+            set { _FixFileSecurityOnAllFiles = value; Save(); }
+        }
+
+        public bool FixFileTimesOnAllFiles
+        {
+            get { return _FixFileTimesOnAllFiles; }
+            set { _FixFileTimesOnAllFiles = value; Save(); }
+        }
+
+        public bool MoveFiles
+        {
+            get { return _MoveFiles; }
+            set { _MoveFiles = value; Save(); }
+        }
+
+        public bool MoveFilesAndDirectories
+        {
+            get { return _MoveFilesAndDirectories; }
+            set { _MoveFilesAndDirectories = value; Save(); }
+        }
     }
 }

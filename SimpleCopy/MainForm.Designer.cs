@@ -7,19 +7,6 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -28,407 +15,389 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.sourceDirectory = new System.Windows.Forms.TextBox();
-            this.destinationDirectory = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.Source = new System.Windows.Forms.TextBox();
+            this.Destination = new System.Windows.Forms.TextBox();
+            this.SourceButton = new System.Windows.Forms.Button();
+            this.DestinationButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
-            this.sourceBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            this.destinationBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.CopyButton = new System.Windows.Forms.Button();
+            this.SourceBrowser = new System.Windows.Forms.FolderBrowserDialog();
+            this.DestinationBrowser = new System.Windows.Forms.FolderBrowserDialog();
+            this.AdvancedTabPage = new System.Windows.Forms.TabControl();
+            this.BasicTabPage = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.EnableRestartMode = new System.Windows.Forms.CheckBox();
+            this.EnableBackupMode = new System.Windows.Forms.CheckBox();
+            this.UseEfwRawMode = new System.Windows.Forms.CheckBox();
+            this.UseUnbufferedIo = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.CopySubdirectoriesIncludingEmpty = new System.Windows.Forms.CheckBox();
+            this.Purge = new System.Windows.Forms.CheckBox();
+            this.CopySubdirectories = new System.Windows.Forms.CheckBox();
+            this.Mirror = new System.Windows.Forms.CheckBox();
+            this.FileFilter = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.recentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RecentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ProfileBrowser = new System.Windows.Forms.OpenFileDialog();
+            this.AdvancedTabPage.SuspendLayout();
+            this.BasicTabPage.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.MenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // sourceDirectory
+            // Source
             // 
-            this.sourceDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.Source.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.sourceDirectory.Location = new System.Drawing.Point(13, 29);
-            this.sourceDirectory.Margin = new System.Windows.Forms.Padding(2);
-            this.sourceDirectory.Name = "sourceDirectory";
-            this.sourceDirectory.Size = new System.Drawing.Size(551, 20);
-            this.sourceDirectory.TabIndex = 0;
-            this.sourceDirectory.TextChanged += new System.EventHandler(this.sourceDirectory_TextChanged);
+            this.Source.Location = new System.Drawing.Point(24, 54);
+            this.Source.Margin = new System.Windows.Forms.Padding(4);
+            this.Source.Name = "Source";
+            this.Source.Size = new System.Drawing.Size(1007, 29);
+            this.Source.TabIndex = 0;
             // 
-            // destinationDirectory
+            // Destination
             // 
-            this.destinationDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.Destination.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.destinationDirectory.Location = new System.Drawing.Point(13, 67);
-            this.destinationDirectory.Margin = new System.Windows.Forms.Padding(2);
-            this.destinationDirectory.Name = "destinationDirectory";
-            this.destinationDirectory.Size = new System.Drawing.Size(551, 20);
-            this.destinationDirectory.TabIndex = 1;
-            this.destinationDirectory.TextChanged += new System.EventHandler(this.destinationDirectory_TextChanged);
+            this.Destination.Location = new System.Drawing.Point(24, 124);
+            this.Destination.Margin = new System.Windows.Forms.Padding(4);
+            this.Destination.Name = "Destination";
+            this.Destination.Size = new System.Drawing.Size(1007, 29);
+            this.Destination.TabIndex = 1;
             // 
-            // button1
+            // SourceButton
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(566, 29);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(53, 20);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Browse";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.SourceButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.SourceButton.Location = new System.Drawing.Point(1038, 54);
+            this.SourceButton.Margin = new System.Windows.Forms.Padding(4);
+            this.SourceButton.Name = "SourceButton";
+            this.SourceButton.Size = new System.Drawing.Size(97, 37);
+            this.SourceButton.TabIndex = 2;
+            this.SourceButton.Text = "Browse";
+            this.SourceButton.UseVisualStyleBackColor = true;
+            this.SourceButton.Click += new System.EventHandler(this.SourceBrowseButton_Click);
             // 
-            // button2
+            // DestinationButton
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(566, 67);
-            this.button2.Margin = new System.Windows.Forms.Padding(2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(53, 20);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Browse";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.DestinationButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.DestinationButton.Location = new System.Drawing.Point(1038, 124);
+            this.DestinationButton.Margin = new System.Windows.Forms.Padding(4);
+            this.DestinationButton.Name = "DestinationButton";
+            this.DestinationButton.Size = new System.Drawing.Size(97, 37);
+            this.DestinationButton.TabIndex = 3;
+            this.DestinationButton.Text = "Browse";
+            this.DestinationButton.UseVisualStyleBackColor = true;
+            this.DestinationButton.Click += new System.EventHandler(this.DestinationBrowseButton_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 14);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(18, 26);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.Size = new System.Drawing.Size(75, 25);
             this.label1.TabIndex = 4;
             this.label1.Text = "Source";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 51);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(18, 94);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(60, 13);
+            this.label2.Size = new System.Drawing.Size(109, 25);
             this.label2.TabIndex = 5;
             this.label2.Text = "Destination";
             // 
-            // button3
+            // CopyButton
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(573, 221);
-            this.button3.Margin = new System.Windows.Forms.Padding(2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(68, 20);
-            this.button3.TabIndex = 7;
-            this.button3.Text = "Copy";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.CopyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CopyButton.Location = new System.Drawing.Point(1051, 408);
+            this.CopyButton.Margin = new System.Windows.Forms.Padding(4);
+            this.CopyButton.Name = "CopyButton";
+            this.CopyButton.Size = new System.Drawing.Size(125, 37);
+            this.CopyButton.TabIndex = 7;
+            this.CopyButton.Text = "Copy";
+            this.CopyButton.UseVisualStyleBackColor = true;
+            this.CopyButton.Click += new System.EventHandler(this.CopyButton_Click);
             // 
-            // sourceBrowser
+            // SourceBrowser
             // 
-            this.sourceBrowser.Description = "Select source folder.";
+            this.SourceBrowser.Description = "Select source folder.";
             // 
-            // destinationBrowser
+            // DestinationBrowser
             // 
-            this.destinationBrowser.Description = "Select destination folder.";
+            this.DestinationBrowser.Description = "Select destination folder.";
             // 
-            // tabControl1
+            // AdvancedTabPage
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.AdvancedTabPage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(7, 24);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(638, 193);
-            this.tabControl1.TabIndex = 8;
+            this.AdvancedTabPage.Controls.Add(this.BasicTabPage);
+            this.AdvancedTabPage.Controls.Add(this.tabPage2);
+            this.AdvancedTabPage.Location = new System.Drawing.Point(13, 44);
+            this.AdvancedTabPage.Margin = new System.Windows.Forms.Padding(4);
+            this.AdvancedTabPage.Name = "AdvancedTabPage";
+            this.AdvancedTabPage.SelectedIndex = 0;
+            this.AdvancedTabPage.Size = new System.Drawing.Size(1170, 356);
+            this.AdvancedTabPage.TabIndex = 8;
             // 
-            // tabPage1
+            // BasicTabPage
             // 
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.sourceDirectory);
-            this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Controls.Add(this.destinationDirectory);
-            this.tabPage1.Controls.Add(this.button1);
-            this.tabPage1.Controls.Add(this.button2);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(630, 167);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Basic";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.BasicTabPage.Controls.Add(this.label1);
+            this.BasicTabPage.Controls.Add(this.Source);
+            this.BasicTabPage.Controls.Add(this.label2);
+            this.BasicTabPage.Controls.Add(this.Destination);
+            this.BasicTabPage.Controls.Add(this.SourceButton);
+            this.BasicTabPage.Controls.Add(this.DestinationButton);
+            this.BasicTabPage.Location = new System.Drawing.Point(4, 33);
+            this.BasicTabPage.Margin = new System.Windows.Forms.Padding(4);
+            this.BasicTabPage.Name = "BasicTabPage";
+            this.BasicTabPage.Padding = new System.Windows.Forms.Padding(4);
+            this.BasicTabPage.Size = new System.Drawing.Size(1162, 319);
+            this.BasicTabPage.TabIndex = 0;
+            this.BasicTabPage.Text = "Basic";
+            this.BasicTabPage.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
+            this.tabPage2.Location = new System.Drawing.Point(4, 33);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(630, 167);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage2.Size = new System.Drawing.Size(1162, 319);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Advanced";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.checkBox3);
-            this.groupBox2.Controls.Add(this.checkBox4);
-            this.groupBox2.Controls.Add(this.checkBox6);
-            this.groupBox2.Controls.Add(this.checkBox5);
-            this.groupBox2.Location = new System.Drawing.Point(226, 5);
+            this.groupBox2.Controls.Add(this.EnableRestartMode);
+            this.groupBox2.Controls.Add(this.EnableBackupMode);
+            this.groupBox2.Controls.Add(this.UseEfwRawMode);
+            this.groupBox2.Controls.Add(this.UseUnbufferedIo);
+            this.groupBox2.Location = new System.Drawing.Point(414, 9);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(6);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(399, 157);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(6);
+            this.groupBox2.Size = new System.Drawing.Size(732, 290);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             // 
-            // checkBox3
+            // EnableRestartMode
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(6, 11);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(110, 17);
-            this.checkBox3.TabIndex = 4;
-            this.checkBox3.Text = "Restartable Mode";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            this.EnableRestartMode.AutoSize = true;
+            this.EnableRestartMode.Location = new System.Drawing.Point(11, 20);
+            this.EnableRestartMode.Margin = new System.Windows.Forms.Padding(6);
+            this.EnableRestartMode.Name = "EnableRestartMode";
+            this.EnableRestartMode.Size = new System.Drawing.Size(191, 29);
+            this.EnableRestartMode.TabIndex = 4;
+            this.EnableRestartMode.Text = "Restartable Mode";
+            this.EnableRestartMode.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // EnableBackupMode
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(6, 34);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(93, 17);
-            this.checkBox4.TabIndex = 5;
-            this.checkBox4.Text = "Backup Mode";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
+            this.EnableBackupMode.AutoSize = true;
+            this.EnableBackupMode.Location = new System.Drawing.Point(11, 63);
+            this.EnableBackupMode.Margin = new System.Windows.Forms.Padding(6);
+            this.EnableBackupMode.Name = "EnableBackupMode";
+            this.EnableBackupMode.Size = new System.Drawing.Size(159, 29);
+            this.EnableBackupMode.TabIndex = 5;
+            this.EnableBackupMode.Text = "Backup Mode";
+            this.EnableBackupMode.UseVisualStyleBackColor = true;
             // 
-            // checkBox6
+            // UseEfwRawMode
             // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(6, 80);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(161, 17);
-            this.checkBox6.TabIndex = 7;
-            this.checkBox6.Text = "EFS RAW for encrypted files";
-            this.checkBox6.UseVisualStyleBackColor = true;
-            this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
+            this.UseEfwRawMode.AutoSize = true;
+            this.UseEfwRawMode.Location = new System.Drawing.Point(11, 148);
+            this.UseEfwRawMode.Margin = new System.Windows.Forms.Padding(6);
+            this.UseEfwRawMode.Name = "UseEfwRawMode";
+            this.UseEfwRawMode.Size = new System.Drawing.Size(286, 29);
+            this.UseEfwRawMode.TabIndex = 7;
+            this.UseEfwRawMode.Text = "EFS RAW for encrypted files";
+            this.UseEfwRawMode.UseVisualStyleBackColor = true;
             // 
-            // checkBox5
+            // UseUnbufferedIo
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(6, 57);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(98, 17);
-            this.checkBox5.TabIndex = 6;
-            this.checkBox5.Text = "Unbuffered I/O";
-            this.checkBox5.UseVisualStyleBackColor = true;
-            this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
+            this.UseUnbufferedIo.AutoSize = true;
+            this.UseUnbufferedIo.Location = new System.Drawing.Point(11, 105);
+            this.UseUnbufferedIo.Margin = new System.Windows.Forms.Padding(6);
+            this.UseUnbufferedIo.Name = "UseUnbufferedIo";
+            this.UseUnbufferedIo.Size = new System.Drawing.Size(166, 29);
+            this.UseUnbufferedIo.TabIndex = 6;
+            this.UseUnbufferedIo.Text = "Unbuffered I/O";
+            this.UseUnbufferedIo.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.checkBox2);
-            this.groupBox1.Controls.Add(this.checkBox8);
-            this.groupBox1.Controls.Add(this.checkBox1);
-            this.groupBox1.Controls.Add(this.checkBox7);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.CopySubdirectoriesIncludingEmpty);
+            this.groupBox1.Controls.Add(this.Purge);
+            this.groupBox1.Controls.Add(this.CopySubdirectories);
+            this.groupBox1.Controls.Add(this.Mirror);
+            this.groupBox1.Controls.Add(this.FileFilter);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(5, 5);
+            this.groupBox1.Location = new System.Drawing.Point(9, 9);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(215, 157);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(6);
+            this.groupBox1.Size = new System.Drawing.Size(394, 290);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             // 
-            // checkBox2
+            // CopySubdirectoriesIncludingEmpty
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(6, 37);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(196, 17);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "Copy Subdirectories including empty";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            this.CopySubdirectoriesIncludingEmpty.AutoSize = true;
+            this.CopySubdirectoriesIncludingEmpty.Location = new System.Drawing.Point(11, 68);
+            this.CopySubdirectoriesIncludingEmpty.Margin = new System.Windows.Forms.Padding(6);
+            this.CopySubdirectoriesIncludingEmpty.Name = "CopySubdirectoriesIncludingEmpty";
+            this.CopySubdirectoriesIncludingEmpty.Size = new System.Drawing.Size(355, 29);
+            this.CopySubdirectoriesIncludingEmpty.TabIndex = 1;
+            this.CopySubdirectoriesIncludingEmpty.Text = "Copy Subdirectories including empty";
+            this.CopySubdirectoriesIncludingEmpty.UseVisualStyleBackColor = true;
             // 
-            // checkBox8
+            // Purge
             // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Location = new System.Drawing.Point(6, 60);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(54, 17);
-            this.checkBox8.TabIndex = 9;
-            this.checkBox8.Text = "Purge";
-            this.checkBox8.UseVisualStyleBackColor = true;
-            this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
+            this.Purge.AutoSize = true;
+            this.Purge.Location = new System.Drawing.Point(11, 111);
+            this.Purge.Margin = new System.Windows.Forms.Padding(6);
+            this.Purge.Name = "Purge";
+            this.Purge.Size = new System.Drawing.Size(90, 29);
+            this.Purge.TabIndex = 9;
+            this.Purge.Text = "Purge";
+            this.Purge.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // CopySubdirectories
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 14);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(120, 17);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "Copy Subdirectories";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.CopySubdirectories.AutoSize = true;
+            this.CopySubdirectories.Location = new System.Drawing.Point(11, 26);
+            this.CopySubdirectories.Margin = new System.Windows.Forms.Padding(6);
+            this.CopySubdirectories.Name = "CopySubdirectories";
+            this.CopySubdirectories.Size = new System.Drawing.Size(215, 29);
+            this.CopySubdirectories.TabIndex = 0;
+            this.CopySubdirectories.Text = "Copy Subdirectories";
+            this.CopySubdirectories.UseVisualStyleBackColor = true;
             // 
-            // checkBox7
+            // Mirror
             // 
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Location = new System.Drawing.Point(6, 83);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(97, 17);
-            this.checkBox7.TabIndex = 8;
-            this.checkBox7.Text = "Mirror Directory";
-            this.checkBox7.UseVisualStyleBackColor = true;
-            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged);
+            this.Mirror.AutoSize = true;
+            this.Mirror.Location = new System.Drawing.Point(11, 153);
+            this.Mirror.Margin = new System.Windows.Forms.Padding(6);
+            this.Mirror.Name = "Mirror";
+            this.Mirror.Size = new System.Drawing.Size(170, 29);
+            this.Mirror.TabIndex = 8;
+            this.Mirror.Text = "Mirror Directory";
+            this.Mirror.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // FileFilter
             // 
-            this.textBox1.Location = new System.Drawing.Point(6, 106);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(132, 20);
-            this.textBox1.TabIndex = 2;
-            this.textBox1.Text = "*.*";
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.FileFilter.Location = new System.Drawing.Point(11, 196);
+            this.FileFilter.Margin = new System.Windows.Forms.Padding(6);
+            this.FileFilter.Name = "FileFilter";
+            this.FileFilter.Size = new System.Drawing.Size(239, 29);
+            this.FileFilter.TabIndex = 2;
+            this.FileFilter.Text = "*.*";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 129);
+            this.label3.Location = new System.Drawing.Point(11, 238);
+            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(48, 13);
+            this.label3.Size = new System.Drawing.Size(90, 25);
             this.label3.TabIndex = 3;
             this.label3.Text = "File Filter";
             // 
-            // contextMenuStrip1
+            // MenuStrip
             // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(28, 28);
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(93, 26);
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(28, 28);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuStrip.ImageScalingSize = new System.Drawing.Size(28, 28);
+            this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem1,
             this.helpToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(3, 1, 0, 1);
-            this.menuStrip1.Size = new System.Drawing.Size(648, 24);
-            this.menuStrip1.TabIndex = 10;
-            this.menuStrip1.Text = "menuStrip1";
+            this.MenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.MenuStrip.Name = "MenuStrip";
+            this.MenuStrip.Size = new System.Drawing.Size(1188, 38);
+            this.MenuStrip.TabIndex = 10;
+            this.MenuStrip.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem1
             // 
             this.fileToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
-            this.recentToolStripMenuItem});
+            this.OpenToolStripMenuItem,
+            this.RecentToolStripMenuItem});
             this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
-            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(53, 22);
+            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(84, 34);
             this.fileToolStripMenuItem1.Text = "Profile";
             // 
-            // openToolStripMenuItem
+            // OpenToolStripMenuItem
             // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(288, 34);
+            this.OpenToolStripMenuItem.Text = "Open";
+            this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
-            // recentToolStripMenuItem
+            // RecentToolStripMenuItem
             // 
-            this.recentToolStripMenuItem.Name = "recentToolStripMenuItem";
-            this.recentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.recentToolStripMenuItem.Text = "Recent";
-            this.recentToolStripMenuItem.Click += new System.EventHandler(this.recentToolStripMenuItem_Click);
+            this.RecentToolStripMenuItem.Name = "RecentToolStripMenuItem";
+            this.RecentToolStripMenuItem.Size = new System.Drawing.Size(288, 34);
+            this.RecentToolStripMenuItem.Text = "Recent";
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
+            this.AboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 22);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(68, 34);
             this.helpToolStripMenuItem.Text = "Help";
             // 
-            // aboutToolStripMenuItem
+            // AboutToolStripMenuItem
             // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(288, 34);
+            this.AboutToolStripMenuItem.Text = "About";
+            this.AboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
-            // openFileDialog1
+            // ProfileBrowser
             // 
-            this.openFileDialog1.FileName = "profileBrowser";
+            this.ProfileBrowser.FileName = "profileBrowser";
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(648, 252);
-            this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.button3);
-            this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2);
-            this.MinimumSize = new System.Drawing.Size(664, 291);
+            this.ClientSize = new System.Drawing.Size(1188, 465);
+            this.Controls.Add(this.MenuStrip);
+            this.Controls.Add(this.AdvancedTabPage);
+            this.Controls.Add(this.CopyButton);
+            this.MainMenuStrip = this.MenuStrip;
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(1197, 483);
             this.Name = "MainForm";
             this.Text = "Simple Copy";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.AdvancedTabPage.ResumeLayout(false);
+            this.BasicTabPage.ResumeLayout(false);
+            this.BasicTabPage.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.contextMenuStrip1.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.MenuStrip.ResumeLayout(false);
+            this.MenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -436,39 +405,37 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox sourceDirectory;
-        private System.Windows.Forms.TextBox destinationDirectory;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox Source;
+        private System.Windows.Forms.TextBox Destination;
+        private System.Windows.Forms.Button SourceButton;
+        private System.Windows.Forms.Button DestinationButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.FolderBrowserDialog sourceBrowser;
-        private System.Windows.Forms.FolderBrowserDialog destinationBrowser;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Button CopyButton;
+        private System.Windows.Forms.FolderBrowserDialog SourceBrowser;
+        private System.Windows.Forms.FolderBrowserDialog DestinationBrowser;
+        private System.Windows.Forms.TabControl AdvancedTabPage;
+        private System.Windows.Forms.TabPage BasicTabPage;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip MenuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem recentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RecentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox8;
-        private System.Windows.Forms.CheckBox checkBox7;
-        private System.Windows.Forms.CheckBox checkBox6;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.ToolStripMenuItem AboutToolStripMenuItem;
+        private System.Windows.Forms.CheckBox CopySubdirectories;
+        private System.Windows.Forms.CheckBox Purge;
+        private System.Windows.Forms.CheckBox Mirror;
+        private System.Windows.Forms.CheckBox UseEfwRawMode;
+        private System.Windows.Forms.CheckBox UseUnbufferedIo;
+        private System.Windows.Forms.CheckBox EnableBackupMode;
+        private System.Windows.Forms.CheckBox EnableRestartMode;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.TextBox FileFilter;
+        private System.Windows.Forms.CheckBox CopySubdirectoriesIncludingEmpty;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog ProfileBrowser;
     }
 }
 
