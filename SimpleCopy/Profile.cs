@@ -9,7 +9,7 @@ namespace SimpleCopy
         private static readonly XmlSerializer SerializerXML = new XmlSerializer(typeof(Profile));
         private readonly Timer SaveTimer = new Timer(1000);
 
-        internal static Profile Load(string FileName)
+        internal static Profile Open(string FileName)
         {
             Profile _Profile;
 

@@ -111,7 +111,7 @@ namespace SimpleCopy
                 return false;
             }
 
-            Current = Profile.Load(FileName);
+            Current = Profile.Open(FileName);
 
             return true;
         }
