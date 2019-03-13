@@ -1,11 +1,10 @@
 ﻿using System.IO;
-using System.Xml;
 using System.Reflection;
-using System.Xml.Serialization;
+using System.Xml;
 
 namespace SimpleCopy
 {
-    static class Profiles
+    internal static class Profiles
     {
         private static string ProfilesDir = "profiles";
         private static string ProfilesFile = "profiles.xml";

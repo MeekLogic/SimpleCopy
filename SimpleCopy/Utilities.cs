@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace SimpleCopy
 {
-    static class Utilities
+    internal static class Utilities
     {
         // https://msdn.microsoft.com/en-us/library/aa365247.aspx#naming_conventions
         // http://stackoverflow.com/questions/146134/how-to-remove-illegal-characters-from-path-and-filenames

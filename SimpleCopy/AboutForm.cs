@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace SimpleCopy
 {
-    public partial class AboutForm : Form
+    internal partial class AboutForm : Form
     {
         public AboutForm()
         {

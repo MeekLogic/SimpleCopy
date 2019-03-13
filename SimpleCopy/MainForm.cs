@@ -4,9 +4,9 @@ using System.Windows.Forms;
 
 namespace SimpleCopy
 {
-    public partial class MainForm : Form
+    internal partial class MainForm : Form
     {
-        CopyForm copy;
+        private CopyForm copy;
 
         public MainForm()
         {
@@ -194,7 +194,7 @@ namespace SimpleCopy
             Profiles.Current.FileFilter = textBox1.Text;
         }
 
-        #endregion
+        #endregion Control Value Change Handling
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -213,7 +213,6 @@ namespace SimpleCopy
 
         private void recentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
         }
     }
 }

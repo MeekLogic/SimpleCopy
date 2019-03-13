@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace SimpleCopy
 {
-    public partial class CopyForm : Form
+    internal partial class CopyForm : Form
     {
         private RoboCommand copy;
 
@@ -155,7 +155,7 @@ namespace SimpleCopy
             }
         }
 
-        // Returns the human-readable file size for an arbitrary, 64-bit file size 
+        // Returns the human-readable file size for an arbitrary, 64-bit file size
         // The default format is "0.### XB", e.g. "4.2 KB" or "1.434 GB"
         public string GetBytesReadable(long i)
         {
