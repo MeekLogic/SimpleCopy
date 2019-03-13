@@ -9,10 +9,8 @@ namespace SimpleCopy
         private static string ProfilesDir = "profiles";
         private static string ProfilesFile = "profiles.xml";
 
-        //
         private static readonly XmlDocument ProfilesXML = new XmlDocument();
 
-        //
         private static Profile _Current;
 
         internal static Profile Current

@@ -83,12 +83,10 @@ namespace SimpleCopy
         [XmlIgnore]
         internal string FileName { get; set; }
 
-        // Default values
         private string _Source = null;
-
         private string _Destination = null;
         private string _FileFilter = "*.*";
-        private bool _CopySubdirectories = true;
+        private bool _CopySubdirectories = false;
         private bool _CopySubdirectoriesIncludingEmpty = false;
         private bool _EnableRestartMode = false;
         private bool _EnableBackupMode = false;
@@ -98,6 +96,7 @@ namespace SimpleCopy
         private bool _Purge = false;
         private int _Depth = -1;
         private string _CopyFlags = "DAT";
+        private string _DirectoryCopyFlags = "DA";
         private bool _CopyFilesWithSecurity = false;
         private bool _CopyAll = false;
         private bool _RemoveFileInformation = false;
@@ -105,6 +104,20 @@ namespace SimpleCopy
         private bool _FixFileTimesOnAllFiles = false;
         private bool _MoveFiles = false;
         private bool _MoveFilesAndDirectories = false;
+        private string _AddAttributes = null;
+        private string _RemoveAttributes = null;
+        private bool _CreateDirectoryAndFileTree = false;
+        private bool _FatFiles = false;
+        private bool _TurnLongPathSupportOff = false;
+        private int _MonitorSourceChangesLimit = 0;
+        private int _MonitorSourceTimeLimit = 0;
+        private string _RunHours = null;
+        private bool _CheckPerFile = false;
+        private int _InterPacketGap = 0;
+        private bool _CopySymbolicLink = false;
+        private int _MultiThreadedCopiesCount = 0;
+        private bool _DoNotCopyDirectoryInfo = false;
+        private bool _DoNotUseWindowsCopyOffload = false;
 
         // Getter/Setters
         public string Source
@@ -185,6 +198,12 @@ namespace SimpleCopy
             set { _CopyFlags = value; Save(); }
         }
 
+        public string DirectoryCopyFlags
+        {
+            get { return _DirectoryCopyFlags; }
+            set { _DirectoryCopyFlags = value; Save(); }
+        }
+
         public bool CopyFilesWithSecurity
         {
             get { return _CopyFilesWithSecurity; }
@@ -225,6 +244,90 @@ namespace SimpleCopy
         {
             get { return _MoveFilesAndDirectories; }
             set { _MoveFilesAndDirectories = value; Save(); }
+        }
+
+        public string AddAttributes
+        {
+            get { return _AddAttributes; }
+            set { _AddAttributes = value; Save(); }
+        }
+
+        public string RemoveAttributes
+        {
+            get { return _RemoveAttributes; }
+            set { _RemoveAttributes = value; Save(); }
+        }
+
+        public bool CreateDirectoryAndFileTree
+        {
+            get { return _CreateDirectoryAndFileTree; }
+            set { _CreateDirectoryAndFileTree = value; Save(); }
+        }
+
+        public bool FatFiles
+        {
+            get { return _FatFiles; }
+            set { _FatFiles = value; Save(); }
+        }
+
+        public bool TurnLongPathSupportOff
+        {
+            get { return _TurnLongPathSupportOff; }
+            set { _TurnLongPathSupportOff = value; Save(); }
+        }
+
+        public int MonitorSourceChangesLimit
+        {
+            get { return _MonitorSourceChangesLimit; }
+            set { _MonitorSourceChangesLimit = value; Save(); }
+        }
+
+        public int MonitorSourceTimeLimit
+        {
+            get { return _MonitorSourceTimeLimit; }
+            set { _MonitorSourceTimeLimit = value; Save(); }
+        }
+
+        public string RunHours
+        {
+            get { return _RunHours; }
+            set { _RunHours = value; Save(); }
+        }
+
+        public bool CheckPerFile
+        {
+            get { return _CheckPerFile; }
+            set { _CheckPerFile = value; Save(); }
+        }
+
+        public int InterPacketGap
+        {
+            get { return _InterPacketGap; }
+            set { _InterPacketGap = value; Save(); }
+        }
+
+        public bool CopySymobolicLink
+        {
+            get { return _CopySymbolicLink; }
+            set { _CopySymbolicLink = value; Save(); }
+        }
+
+        public int MultiThreadedCopiesCount
+        {
+            get { return _MultiThreadedCopiesCount; }
+            set { _MultiThreadedCopiesCount = value; Save(); }
+        }
+
+        public bool DoNotCopyDirectoryInfo
+        {
+            get { return _DoNotCopyDirectoryInfo; }
+            set { _DoNotCopyDirectoryInfo = value; Save(); }
+        }
+
+        public bool DoNotUseWindowsCopyOffload
+        {
+            get { return _DoNotUseWindowsCopyOffload; }
+            set { _DoNotUseWindowsCopyOffload = value; Save(); }
         }
     }
 }

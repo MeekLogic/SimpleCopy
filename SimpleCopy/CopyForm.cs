@@ -75,10 +75,6 @@ namespace SimpleCopy
             //
             _RoboCommand.CopyOptions.EnableEfsRawMode = Profiles.Current.EnableEfsRawMode;
 
-            // retry options
-            _RoboCommand.RetryOptions.RetryCount = 60;
-            _RoboCommand.RetryOptions.RetryWaitTime = 10;
-
             _RoboCommand.Start();
 
             PauseResumeButton.Enabled = true;
@@ -95,7 +91,7 @@ namespace SimpleCopy
             _RoboCommand.Dispose();
         }
 
-        private void _RoboCommand_OnCommandError(object sender, RoboSharp.ErrorEventArgs e)
+        private void _RoboCommand_OnCommandError(object sender, ErrorEventArgs e)
         {
             BeginInvoke((Action)(() =>
             {
@@ -103,7 +99,7 @@ namespace SimpleCopy
             }));
         }
 
-        private void _RoboCommand_OnError(object sender, RoboSharp.ErrorEventArgs e)
+        private void _RoboCommand_OnError(object sender, ErrorEventArgs e)
         {
             BeginInvoke((Action)(() =>
             {
