@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace SimpleCopy
@@ -8,6 +9,8 @@ namespace SimpleCopy
     {
         private ProfileEditorForm _ProfileEditorForm;
         private CopyForm _CopyForm;
+        //
+        private readonly string WorkDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
         internal MainForm()
         {
@@ -32,7 +35,10 @@ namespace SimpleCopy
         private void MainForm_Load(object sender, EventArgs e)
         {
             // Load last Profile
-            Profiles.Init();
+            Profiles.Init(WorkDir);
+
+            // Init Job logger
+            JobLogger.Init(WorkDir);
 
             // Set form control values
             Source.Text = Profiles.Current.Source;

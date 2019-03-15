@@ -66,6 +66,10 @@
             this.FileFilter = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.RetryWaitTime = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.RetryCount = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -74,6 +78,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.MultiThreadedCopies)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Depth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RetryWaitTime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RetryCount)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -258,7 +264,7 @@
             // CheckPerFile
             // 
             this.CheckPerFile.AutoSize = true;
-            this.CheckPerFile.Location = new System.Drawing.Point(4, 195);
+            this.CheckPerFile.Location = new System.Drawing.Point(6, 195);
             this.CheckPerFile.Name = "CheckPerFile";
             this.CheckPerFile.Size = new System.Drawing.Size(95, 17);
             this.CheckPerFile.TabIndex = 24;
@@ -302,7 +308,7 @@
             // DoNotUseWindowsCopyOffload
             // 
             this.DoNotUseWindowsCopyOffload.AutoSize = true;
-            this.DoNotUseWindowsCopyOffload.Location = new System.Drawing.Point(5, 172);
+            this.DoNotUseWindowsCopyOffload.Location = new System.Drawing.Point(6, 172);
             this.DoNotUseWindowsCopyOffload.Name = "DoNotUseWindowsCopyOffload";
             this.DoNotUseWindowsCopyOffload.Size = new System.Drawing.Size(193, 17);
             this.DoNotUseWindowsCopyOffload.TabIndex = 19;
@@ -383,6 +389,10 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.RetryWaitTime);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.RetryCount);
+            this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.CreateDirectoryAndFileTree);
             this.groupBox1.Controls.Add(this.MoveFilesAndDirectories);
             this.groupBox1.Controls.Add(this.MoveFiles);
@@ -521,6 +531,40 @@
             this.tabPage2.Text = "File Selection";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // RetryWaitTime
+            // 
+            this.RetryWaitTime.Location = new System.Drawing.Point(99, 292);
+            this.RetryWaitTime.Name = "RetryWaitTime";
+            this.RetryWaitTime.Size = new System.Drawing.Size(90, 20);
+            this.RetryWaitTime.TabIndex = 27;
+            this.RetryWaitTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(3, 294);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(83, 13);
+            this.label9.TabIndex = 26;
+            this.label9.Text = "Retry Wait Time";
+            // 
+            // RetryCount
+            // 
+            this.RetryCount.Location = new System.Drawing.Point(99, 266);
+            this.RetryCount.Name = "RetryCount";
+            this.RetryCount.Size = new System.Drawing.Size(90, 20);
+            this.RetryCount.TabIndex = 25;
+            this.RetryCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(3, 268);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(63, 13);
+            this.label10.TabIndex = 24;
+            this.label10.Text = "Retry Count";
+            // 
             // ProfileEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -542,6 +586,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Depth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RetryWaitTime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RetryCount)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -586,5 +632,9 @@
         private System.Windows.Forms.NumericUpDown InterPacketGap;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox CheckPerFile;
+        private System.Windows.Forms.NumericUpDown RetryWaitTime;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.NumericUpDown RetryCount;
+        private System.Windows.Forms.Label label10;
     }
 }

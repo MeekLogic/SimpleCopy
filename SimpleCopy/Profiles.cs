@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Reflection;
 using System.Xml;
 
 namespace SimpleCopy
@@ -28,12 +27,11 @@ namespace SimpleCopy
             }
         }
 
-        internal static void Init()
+        internal static void Init(string WorkDir)
         {
             // Set default paths
-            string WorkDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\";
-            ProfilesDir = WorkDir + ProfilesDir;
-            ProfilesFile = WorkDir + ProfilesFile;
+            ProfilesDir = WorkDir + "\\" + ProfilesDir;
+            ProfilesFile = WorkDir + "\\" +  ProfilesFile;
 
             // Profiles folder missing?
             if (!Directory.Exists(ProfilesDir))

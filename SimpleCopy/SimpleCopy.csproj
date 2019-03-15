@@ -65,6 +65,8 @@
       <DependentUpon>CopyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FileAttributes.cs" />
+    <Compile Include="Job.cs" />
+    <Compile Include="JobLogger.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

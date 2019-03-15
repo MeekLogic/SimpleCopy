@@ -85,6 +85,7 @@ namespace SimpleCopy
 
         // Copy Options
         private string _Source = null;
+
         private string _Destination = null;
         private string _FileFilter = "*.*";
         private bool _CopySubdirectories = false;
@@ -96,17 +97,20 @@ namespace SimpleCopy
         private bool _Mirror = false;
         private bool _Purge = false;
         private int _Depth = -1;
+
         private CopyFlags _FileCopyFlags = new CopyFlags
         {
             Data = true,
             Attributes = true,
             TimeStamps = true
         };
+
         private CopyFlags _DirectoryCopyFlags = new CopyFlags
         {
             Data = true,
             Attributes = true
         };
+
         private bool _CopyFilesWithSecurity = false;
         private bool _CopyAll = false;
         private bool _RemoveFileInformation = false;
@@ -128,6 +132,8 @@ namespace SimpleCopy
         private int _MultiThreadedCopiesCount = 0;
         private bool _DoNotCopyDirectoryInfo = false;
         private bool _DoNotUseWindowsCopyOffload = false;
+        private int _RetryCount = 10;
+        private int _RetryWaitTime = 30;
 
         // File Selection Options
 
@@ -340,6 +346,18 @@ namespace SimpleCopy
         {
             get { return _DoNotUseWindowsCopyOffload; }
             set { _DoNotUseWindowsCopyOffload = value; Save(); }
+        }
+
+        public int RetryCount
+        {
+            get { return _RetryCount; }
+            set { _RetryCount = value; Save(); }
+        }
+
+        public int RetryWaitTime
+        {
+            get { return _RetryWaitTime; }
+            set { _RetryWaitTime = value; Save(); }
         }
     }
 }

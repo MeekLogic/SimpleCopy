@@ -13,14 +13,25 @@ namespace SimpleCopy
         private void SettingsForm_Load(object sender, EventArgs e)
         {
             FileFilter.Text = Profiles.Current.FileFilter;
-            CopySubdirectories.Checked = Profiles.Current.CopySubdirectories;
-            CopySubdirectoriesIncludingEmpty.Checked = Profiles.Current.CopySubdirectoriesIncludingEmpty;
             EnableRestartMode.Checked = Profiles.Current.EnableRestartMode;
             EnableBackupMode.Checked = Profiles.Current.EnableBackupMode;
             UseUnbufferedIo.Checked = Profiles.Current.UseUnbufferedIo;
-            UseEfwRawMode.Checked = Profiles.Current.EnableEfsRawMode;
-            Mirror.Checked = Profiles.Current.Mirror;
-            Purge.Checked = Profiles.Current.Purge;
+            if (Profiles.Current.Mirror)
+            {
+                Mirror.Checked = true;
+                CopySubdirectories.Checked = true;
+                CopySubdirectoriesIncludingEmpty.Checked = true;
+                Purge.Checked = true;
+                CopySubdirectories.Enabled = false;
+                CopySubdirectoriesIncludingEmpty.Enabled = false;
+                Purge.Enabled = false;
+            }
+            else
+            {
+                CopySubdirectories.Checked = Profiles.Current.CopySubdirectories;
+                CopySubdirectoriesIncludingEmpty.Checked = Profiles.Current.CopySubdirectoriesIncludingEmpty;
+                Purge.Checked = Profiles.Current.Purge;
+            }
             Depth.Value = Profiles.Current.Depth;
             MoveFiles.Checked = Profiles.Current.MoveFiles;
             MoveFilesAndDirectories.Checked = Profiles.Current.MoveFilesAndDirectories;
@@ -30,8 +41,20 @@ namespace SimpleCopy
             CopySymbolicLink.Checked = Profiles.Current.CopySymobolicLink;
             DoNotUseWindowsCopyOffload.Checked = Profiles.Current.DoNotUseWindowsCopyOffload;
             CheckPerFile.Checked = Profiles.Current.CheckPerFile;
-            MultiThreadedCopies.Value = Profiles.Current.MultiThreadedCopiesCount;
-            InterPacketGap.Value = Profiles.Current.InterPacketGap;
+            if (Profiles.Current.EnableEfsRawMode || Profiles.Current.InterPacketGap > 0)
+            {
+                UseEfwRawMode.Checked = Profiles.Current.EnableEfsRawMode;
+                InterPacketGap.Value = Profiles.Current.InterPacketGap;
+                MultiThreadedCopies.Enabled = false;
+            }
+            else if (Profiles.Current.MultiThreadedCopiesCount > 0)
+            {
+                MultiThreadedCopies.Value = Profiles.Current.MultiThreadedCopiesCount;
+                UseEfwRawMode.Enabled = false;
+                InterPacketGap.Enabled = false;
+            }
+            RetryCount.Value = Profiles.Current.RetryCount;
+            RetryWaitTime.Value = Profiles.Current.RetryWaitTime;
 
             // File Copy Flags
             if (Profiles.Current.FileCopyFlags.Data) FileCopyFlags.SetItemChecked(0, true);
@@ -94,6 +117,8 @@ namespace SimpleCopy
             MoveFilesAndDirectories.CheckedChanged += new EventHandler(MoveFilesAndDirectories_CheckedChanged);
             MoveFiles.CheckedChanged += new EventHandler(MoveFiles_CheckedChanged);
             Depth.ValueChanged += new EventHandler(Depth_ValueChanged);
+            RetryCount.ValueChanged += new EventHandler(RetryCount_ValueChanged);
+            RetryWaitTime.ValueChanged += new EventHandler(RetryWaitTime_ValueChanged);
         }
 
         private void CopySubdirectories_CheckedChanged(object sender, EventArgs e)
@@ -387,6 +412,16 @@ namespace SimpleCopy
             {
                 MultiThreadedCopies.Enabled = true;
             }
+        }
+
+        private void RetryCount_ValueChanged(object sender, EventArgs e)
+        {
+            Profiles.Current.RetryCount = (int)RetryCount.Value;
+        }
+
+        private void RetryWaitTime_ValueChanged(object sender, EventArgs e)
+        {
+            Profiles.Current.RetryWaitTime = (int)RetryWaitTime.Value;
         }
     }
 }

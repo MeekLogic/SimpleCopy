@@ -1,5 +1,6 @@
 ﻿using RoboSharp;
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace SimpleCopy
@@ -7,6 +8,9 @@ namespace SimpleCopy
     internal partial class CopyForm : Form
     {
         private RoboCommand _RoboCommand;
+        private Stopwatch _Stopwatch;
+        private int FileCount = 0;
+        private long TotalFileSize = 0;
 
         internal CopyForm()
         {
@@ -108,6 +112,13 @@ namespace SimpleCopy
             _RoboCommand.CopyOptions.MoveFilesAndDirectories = Profiles.Current.MoveFilesAndDirectories;
             //
             _RoboCommand.CopyOptions.CreateDirectoryAndFileTree = Profiles.Current.CreateDirectoryAndFileTree;*/
+            //
+            _RoboCommand.RetryOptions.RetryCount = Profiles.Current.RetryCount;
+            //
+            _RoboCommand.RetryOptions.RetryWaitTime = Profiles.Current.RetryWaitTime;
+
+            _Stopwatch = new Stopwatch();
+            _Stopwatch.Start();
 
             _RoboCommand.Start();
 
@@ -166,6 +177,12 @@ namespace SimpleCopy
                         CurrentSize.Text = Utilities.GetBytesReadable(e.ProcessedFile.Size);
                     }
                 }
+
+                if (e.ProcessedFile.FileClassType == FileClassType.File)
+                {
+                    FileCount++;
+                    TotalFileSize += e.ProcessedFile.Size;
+                }
             }));
         }
 
@@ -173,6 +190,15 @@ namespace SimpleCopy
         {
             BeginInvoke((Action)(() =>
             {
+                _Stopwatch.Stop();
+
+                JobLogger.Log(new Job
+                {
+                    TotalTime = _Stopwatch.ElapsedMilliseconds,
+                    TotalFileSize = TotalFileSize,
+                    FileCount = FileCount
+                });
+
                 CurrentFileProgress.Value = 100;
 
                 PauseResumeButton.Enabled = false;
@@ -187,11 +213,15 @@ namespace SimpleCopy
             {
                 _RoboCommand.Resume();
 
+                _Stopwatch.Start();
+
                 PauseResumeButton.Text = "Pause";
             }
             else
             {
                 _RoboCommand.Pause();
+
+                _Stopwatch.Stop();
 
                 PauseResumeButton.Text = "Resume";
             }
