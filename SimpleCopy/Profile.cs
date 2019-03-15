@@ -83,6 +83,7 @@ namespace SimpleCopy
         [XmlIgnore]
         internal string FileName { get; set; }
 
+        // Copy Options
         private string _Source = null;
         private string _Destination = null;
         private string _FileFilter = "*.*";
@@ -95,8 +96,17 @@ namespace SimpleCopy
         private bool _Mirror = false;
         private bool _Purge = false;
         private int _Depth = -1;
-        private string _CopyFlags = "DAT";
-        private string _DirectoryCopyFlags = "DA";
+        private CopyFlags _FileCopyFlags = new CopyFlags
+        {
+            Data = true,
+            Attributes = true,
+            TimeStamps = true
+        };
+        private CopyFlags _DirectoryCopyFlags = new CopyFlags
+        {
+            Data = true,
+            Attributes = true
+        };
         private bool _CopyFilesWithSecurity = false;
         private bool _CopyAll = false;
         private bool _RemoveFileInformation = false;
@@ -104,8 +114,8 @@ namespace SimpleCopy
         private bool _FixFileTimesOnAllFiles = false;
         private bool _MoveFiles = false;
         private bool _MoveFilesAndDirectories = false;
-        private string _AddAttributes = null;
-        private string _RemoveAttributes = null;
+        private FileAttributes _AddAttributes = new FileAttributes();
+        private FileAttributes _RemoveAttributes = new FileAttributes();
         private bool _CreateDirectoryAndFileTree = false;
         private bool _FatFiles = false;
         private bool _TurnLongPathSupportOff = false;
@@ -118,6 +128,8 @@ namespace SimpleCopy
         private int _MultiThreadedCopiesCount = 0;
         private bool _DoNotCopyDirectoryInfo = false;
         private bool _DoNotUseWindowsCopyOffload = false;
+
+        // File Selection Options
 
         // Getter/Setters
         public string Source
@@ -192,13 +204,13 @@ namespace SimpleCopy
             set { _Depth = value; Save(); }
         }
 
-        public string CopyFlags
+        public CopyFlags FileCopyFlags
         {
-            get { return _CopyFlags; }
-            set { _CopyFlags = value; Save(); }
+            get { return _FileCopyFlags; }
+            set { _FileCopyFlags = value; Save(); }
         }
 
-        public string DirectoryCopyFlags
+        public CopyFlags DirectoryCopyFlags
         {
             get { return _DirectoryCopyFlags; }
             set { _DirectoryCopyFlags = value; Save(); }
@@ -246,13 +258,13 @@ namespace SimpleCopy
             set { _MoveFilesAndDirectories = value; Save(); }
         }
 
-        public string AddAttributes
+        public FileAttributes AddAttributes
         {
             get { return _AddAttributes; }
             set { _AddAttributes = value; Save(); }
         }
 
-        public string RemoveAttributes
+        public FileAttributes RemoveAttributes
         {
             get { return _RemoveAttributes; }
             set { _RemoveAttributes = value; Save(); }

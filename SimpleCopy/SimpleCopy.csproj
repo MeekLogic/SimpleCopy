@@ -57,18 +57,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AboutForm.Designer.cs">
-      <DependentUpon>AboutForm.cs</DependentUpon>
-    </Compile>
+    <Compile Include="CopyFlags.cs" />
     <Compile Include="CopyForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CopyForm.Designer.cs">
       <DependentUpon>CopyForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FileAttributes.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,10 +75,13 @@
     <Compile Include="Profiles.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProfileEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProfileEditorForm.Designer.cs">
+      <DependentUpon>ProfileEditorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities.cs" />
-    <EmbeddedResource Include="AboutForm.resx">
-      <DependentUpon>AboutForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="CopyForm.resx">
       <DependentUpon>CopyForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -99,6 +98,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="ProfileEditorForm.resx">
+      <DependentUpon>ProfileEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

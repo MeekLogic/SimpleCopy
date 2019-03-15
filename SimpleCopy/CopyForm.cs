@@ -73,7 +73,41 @@ namespace SimpleCopy
             //
             _RoboCommand.CopyOptions.UseUnbufferedIo = Profiles.Current.UseUnbufferedIo;
             //
-            _RoboCommand.CopyOptions.EnableEfsRawMode = Profiles.Current.EnableEfsRawMode;
+            if (Profiles.Current.EnableEfsRawMode || Profiles.Current.InterPacketGap > 0)
+            {
+                _RoboCommand.CopyOptions.EnableEfsRawMode = Profiles.Current.EnableEfsRawMode;
+                _RoboCommand.CopyOptions.InterPacketGap = Profiles.Current.InterPacketGap;
+            }
+            else
+            {
+                _RoboCommand.CopyOptions.MultiThreadedCopiesCount = Profiles.Current.MultiThreadedCopiesCount;
+            }
+            //
+            _RoboCommand.CopyOptions.Depth = Profiles.Current.Depth;
+            //
+            _RoboCommand.CopyOptions.FatFiles = Profiles.Current.FatFiles;
+            //
+            _RoboCommand.CopyOptions.TurnLongPathSupportOff = Profiles.Current.TurnLongPathSupportOff;
+            //
+            _RoboCommand.CopyOptions.CopySymbolicLink = Profiles.Current.CopySymobolicLink;
+            //
+            _RoboCommand.CopyOptions.DoNotUseWindowsCopyOffload = Profiles.Current.DoNotUseWindowsCopyOffload;
+            //
+            _RoboCommand.CopyOptions.CheckPerFile = Profiles.Current.CheckPerFile;
+            //
+            _RoboCommand.CopyOptions.CopyFlags = Profiles.Current.FileCopyFlags.ToString();
+            //
+            _RoboCommand.CopyOptions.DirectoryCopyFlags = Profiles.Current.DirectoryCopyFlags.ToString();
+            //
+            _RoboCommand.CopyOptions.AddAttributes = Profiles.Current.AddAttributes.ToString();
+            //
+            _RoboCommand.CopyOptions.RemoveAttributes = Profiles.Current.RemoveAttributes.ToString();
+            //
+            /*_RoboCommand.CopyOptions.MoveFiles = Profiles.Current.MoveFiles;
+            //
+            _RoboCommand.CopyOptions.MoveFilesAndDirectories = Profiles.Current.MoveFilesAndDirectories;
+            //
+            _RoboCommand.CopyOptions.CreateDirectoryAndFileTree = Profiles.Current.CreateDirectoryAndFileTree;*/
 
             _RoboCommand.Start();
 
