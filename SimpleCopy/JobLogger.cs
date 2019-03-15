@@ -11,7 +11,7 @@ namespace SimpleCopy
         internal static void Init(string WorkDir)
         {
             JobLog = WorkDir + "\\" + JobLog;
-            
+
             if (!File.Exists(JobLog)) Save(new JobList());
         }
 
@@ -47,7 +47,7 @@ namespace SimpleCopy
             {
                 length = _Temp.Jobs.Length;
             }
-            
+
             JobList _JobList = new JobList
             {
                 Jobs = new Job[length + 1]

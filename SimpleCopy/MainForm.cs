@@ -9,6 +9,7 @@ namespace SimpleCopy
     {
         private ProfileEditorForm _ProfileEditorForm;
         private CopyForm _CopyForm;
+
         //
         private readonly string WorkDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 

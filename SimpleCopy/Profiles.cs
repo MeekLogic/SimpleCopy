@@ -31,7 +31,7 @@ namespace SimpleCopy
         {
             // Set default paths
             ProfilesDir = WorkDir + "\\" + ProfilesDir;
-            ProfilesFile = WorkDir + "\\" +  ProfilesFile;
+            ProfilesFile = WorkDir + "\\" + ProfilesFile;
 
             // Profiles folder missing?
             if (!Directory.Exists(ProfilesDir))
