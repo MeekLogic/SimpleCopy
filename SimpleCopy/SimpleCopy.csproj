@@ -80,7 +80,7 @@
     <Compile Include="ProfileNamingForm.Designer.cs">
       <DependentUpon>ProfileNamingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Profiles.cs" />
+    <Compile Include="ProfileManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProfileEditorForm.cs">

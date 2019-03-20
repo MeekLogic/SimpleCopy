@@ -41,81 +41,81 @@ namespace SimpleCopy
             _RoboCommand.OnCommandCompleted += _RoboCommand_OnCommandCompleted;
 
             // _RoboCommand options
-            _RoboCommand.CopyOptions.Source = Profiles.Current.Source;
+            _RoboCommand.CopyOptions.Source = ProfileManager.Current.Source;
             //
-            _RoboCommand.CopyOptions.Destination = Profiles.Current.Destination;
+            _RoboCommand.CopyOptions.Destination = ProfileManager.Current.Destination;
             //
-            _RoboCommand.CopyOptions.FileFilter = Profiles.Current.FileFilter;
+            _RoboCommand.CopyOptions.FileFilter = ProfileManager.Current.FileFilter;
             //
-            if (Profiles.Current.Mirror)
+            if (ProfileManager.Current.Mirror)
             {
                 _RoboCommand.CopyOptions.Mirror = true;
             }
             else
             {
-                if (Profiles.Current.CopySubdirectoriesIncludingEmpty)
+                if (ProfileManager.Current.CopySubdirectoriesIncludingEmpty)
                 {
                     _RoboCommand.CopyOptions.CopySubdirectoriesIncludingEmpty = true;
                 }
                 else
                 {
-                    _RoboCommand.CopyOptions.CopySubdirectories = Profiles.Current.CopySubdirectories;
+                    _RoboCommand.CopyOptions.CopySubdirectories = ProfileManager.Current.CopySubdirectories;
                 }
                 //
-                _RoboCommand.CopyOptions.Purge = Profiles.Current.Purge;
+                _RoboCommand.CopyOptions.Purge = ProfileManager.Current.Purge;
             }
             //
-            if (Profiles.Current.EnableRestartMode && Profiles.Current.EnableBackupMode)
+            if (ProfileManager.Current.EnableRestartMode && ProfileManager.Current.EnableBackupMode)
             {
                 _RoboCommand.CopyOptions.EnableRestartModeWithBackupFallback = true;
             }
             else
             {
-                _RoboCommand.CopyOptions.EnableRestartMode = Profiles.Current.EnableRestartMode;
-                _RoboCommand.CopyOptions.EnableBackupMode = Profiles.Current.EnableBackupMode;
+                _RoboCommand.CopyOptions.EnableRestartMode = ProfileManager.Current.EnableRestartMode;
+                _RoboCommand.CopyOptions.EnableBackupMode = ProfileManager.Current.EnableBackupMode;
             }
             //
-            _RoboCommand.CopyOptions.UseUnbufferedIo = Profiles.Current.UseUnbufferedIo;
+            _RoboCommand.CopyOptions.UseUnbufferedIo = ProfileManager.Current.UseUnbufferedIo;
             //
-            if (Profiles.Current.EnableEfsRawMode || Profiles.Current.InterPacketGap > 0)
+            if (ProfileManager.Current.EnableEfsRawMode || ProfileManager.Current.InterPacketGap > 0)
             {
-                _RoboCommand.CopyOptions.EnableEfsRawMode = Profiles.Current.EnableEfsRawMode;
-                _RoboCommand.CopyOptions.InterPacketGap = Profiles.Current.InterPacketGap;
+                _RoboCommand.CopyOptions.EnableEfsRawMode = ProfileManager.Current.EnableEfsRawMode;
+                _RoboCommand.CopyOptions.InterPacketGap = ProfileManager.Current.InterPacketGap;
             }
             else
             {
-                _RoboCommand.CopyOptions.MultiThreadedCopiesCount = Profiles.Current.MultiThreadedCopiesCount;
+                _RoboCommand.CopyOptions.MultiThreadedCopiesCount = ProfileManager.Current.MultiThreadedCopiesCount;
             }
             //
-            _RoboCommand.CopyOptions.Depth = Profiles.Current.Depth;
+            _RoboCommand.CopyOptions.Depth = ProfileManager.Current.Depth;
             //
-            _RoboCommand.CopyOptions.FatFiles = Profiles.Current.FatFiles;
+            _RoboCommand.CopyOptions.FatFiles = ProfileManager.Current.FatFiles;
             //
-            _RoboCommand.CopyOptions.TurnLongPathSupportOff = Profiles.Current.TurnLongPathSupportOff;
+            _RoboCommand.CopyOptions.TurnLongPathSupportOff = ProfileManager.Current.TurnLongPathSupportOff;
             //
-            _RoboCommand.CopyOptions.CopySymbolicLink = Profiles.Current.CopySymobolicLink;
+            _RoboCommand.CopyOptions.CopySymbolicLink = ProfileManager.Current.CopySymobolicLink;
             //
-            _RoboCommand.CopyOptions.DoNotUseWindowsCopyOffload = Profiles.Current.DoNotUseWindowsCopyOffload;
+            _RoboCommand.CopyOptions.DoNotUseWindowsCopyOffload = ProfileManager.Current.DoNotUseWindowsCopyOffload;
             //
-            _RoboCommand.CopyOptions.CheckPerFile = Profiles.Current.CheckPerFile;
+            _RoboCommand.CopyOptions.CheckPerFile = ProfileManager.Current.CheckPerFile;
             //
-            _RoboCommand.CopyOptions.CopyFlags = Profiles.Current.FileCopyFlags.ToString();
+            _RoboCommand.CopyOptions.CopyFlags = ProfileManager.Current.FileCopyFlags.ToString();
             //
-            _RoboCommand.CopyOptions.DirectoryCopyFlags = Profiles.Current.DirectoryCopyFlags.ToString();
+            _RoboCommand.CopyOptions.DirectoryCopyFlags = ProfileManager.Current.DirectoryCopyFlags.ToString();
             //
-            _RoboCommand.CopyOptions.AddAttributes = Profiles.Current.AddAttributes.ToString();
+            _RoboCommand.CopyOptions.AddAttributes = ProfileManager.Current.AddAttributes.ToString();
             //
-            _RoboCommand.CopyOptions.RemoveAttributes = Profiles.Current.RemoveAttributes.ToString();
+            _RoboCommand.CopyOptions.RemoveAttributes = ProfileManager.Current.RemoveAttributes.ToString();
             //
-            /*_RoboCommand.CopyOptions.MoveFiles = Profiles.Current.MoveFiles;
+            /*_RoboCommand.CopyOptions.MoveFiles = ProfileManager.Current.MoveFiles;
             //
-            _RoboCommand.CopyOptions.MoveFilesAndDirectories = Profiles.Current.MoveFilesAndDirectories;
+            _RoboCommand.CopyOptions.MoveFilesAndDirectories = ProfileManager.Current.MoveFilesAndDirectories;
             //
-            _RoboCommand.CopyOptions.CreateDirectoryAndFileTree = Profiles.Current.CreateDirectoryAndFileTree;*/
+            _RoboCommand.CopyOptions.CreateDirectoryAndFileTree = ProfileManager.Current.CreateDirectoryAndFileTree;*/
             //
-            _RoboCommand.RetryOptions.RetryCount = Profiles.Current.RetryCount;
+            _RoboCommand.RetryOptions.RetryCount = ProfileManager.Current.RetryCount;
             //
-            _RoboCommand.RetryOptions.RetryWaitTime = Profiles.Current.RetryWaitTime;
+            _RoboCommand.RetryOptions.RetryWaitTime = ProfileManager.Current.RetryWaitTime;
 
             _Stopwatch = new Stopwatch();
             _Stopwatch.Start();

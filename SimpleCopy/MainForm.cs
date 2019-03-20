@@ -36,7 +36,7 @@ namespace SimpleCopy
                 if (components != null) components.Dispose();
 
                 // Manual disposal
-                if (Profiles.Current != null) Profiles.Current.Dispose();
+                if (ProfileManager.Current != null) ProfileManager.Current.Dispose();
                 if (_CopyForm != null) _CopyForm.Dispose();
             }
 
@@ -45,10 +45,10 @@ namespace SimpleCopy
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            Profiles.ProfileLoaded += Profiles_ProfileLoaded;
+            ProfileManager.ProfileLoaded += Profiles_ProfileLoaded;
 
             // Load last Profile
-            Profiles.Init(WorkDir);
+            ProfileManager.Init(WorkDir);
 
             // Init Job logger
             JobLogger.Init(WorkDir);
@@ -62,21 +62,21 @@ namespace SimpleCopy
             Destination.TextChanged -= Destination_TextChanged;
 
             // Set form control values
-            Source.Text = Profiles.Current.Source;
-            Destination.Text = Profiles.Current.Destination;
+            Source.Text = ProfileManager.Current.Source;
+            Destination.Text = ProfileManager.Current.Destination;
 
             // Set default paths for file/folder browsers
-            if (!string.IsNullOrEmpty(Profiles.Current.Source))
+            if (!string.IsNullOrEmpty(ProfileManager.Current.Source))
             {
-                SourceBrowser.SelectedPath = Profiles.Current.Source;
+                SourceBrowser.SelectedPath = ProfileManager.Current.Source;
             }
 
-            if (!string.IsNullOrEmpty(Profiles.Current.Destination))
+            if (!string.IsNullOrEmpty(ProfileManager.Current.Destination))
             {
-                DestinationBrowser.SelectedPath = Profiles.Current.Destination;
+                DestinationBrowser.SelectedPath = ProfileManager.Current.Destination;
             }
 
-            ProfileBrowser.InitialDirectory = Profiles.Dir;
+            ProfileBrowser.InitialDirectory = ProfileManager.ProfilesDirectory;
 
             // Subscribe to form control events
             Source.TextChanged += new EventHandler(Source_TextChanged);
@@ -215,7 +215,7 @@ namespace SimpleCopy
                     return;
                 }
 
-                Profiles.LoadFile(ProfileBrowser.FileName);
+                ProfileManager.LoadFile(ProfileBrowser.FileName);
             }
 
             EnableControls();
@@ -247,7 +247,7 @@ namespace SimpleCopy
                 }));
             }
 
-            Profiles.Current.Source = Source;
+            ProfileManager.Current.Source = Source;
         }
 
         private void Destination_TextChanged(object sender, EventArgs e)
@@ -276,7 +276,7 @@ namespace SimpleCopy
                 }));
             }
 
-            Profiles.Current.Destination = Destination;
+            ProfileManager.Current.Destination = Destination;
         }
 
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -312,8 +312,8 @@ namespace SimpleCopy
         {
             if (!string.IsNullOrEmpty(_ProfileNamingForm.ChoosenName))
             {
-                Profiles.Create(_ProfileNamingForm.ChoosenName);
-                Profiles.Load(_ProfileNamingForm.ChoosenName);
+                ProfileManager.Create(_ProfileNamingForm.ChoosenName);
+                ProfileManager.Load(_ProfileNamingForm.ChoosenName);
             }
 
             _ProfileNamingForm = null;

@@ -12,11 +12,11 @@ namespace SimpleCopy
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
-            FileFilter.Text = Profiles.Current.FileFilter;
-            EnableRestartMode.Checked = Profiles.Current.EnableRestartMode;
-            EnableBackupMode.Checked = Profiles.Current.EnableBackupMode;
-            UseUnbufferedIo.Checked = Profiles.Current.UseUnbufferedIo;
-            if (Profiles.Current.Mirror)
+            FileFilter.Text = ProfileManager.Current.FileFilter;
+            EnableRestartMode.Checked = ProfileManager.Current.EnableRestartMode;
+            EnableBackupMode.Checked = ProfileManager.Current.EnableBackupMode;
+            UseUnbufferedIo.Checked = ProfileManager.Current.UseUnbufferedIo;
+            if (ProfileManager.Current.Mirror)
             {
                 Mirror.Checked = true;
                 CopySubdirectories.Checked = true;
@@ -28,68 +28,68 @@ namespace SimpleCopy
             }
             else
             {
-                CopySubdirectories.Checked = Profiles.Current.CopySubdirectories;
-                CopySubdirectoriesIncludingEmpty.Checked = Profiles.Current.CopySubdirectoriesIncludingEmpty;
-                Purge.Checked = Profiles.Current.Purge;
+                CopySubdirectories.Checked = ProfileManager.Current.CopySubdirectories;
+                CopySubdirectoriesIncludingEmpty.Checked = ProfileManager.Current.CopySubdirectoriesIncludingEmpty;
+                Purge.Checked = ProfileManager.Current.Purge;
             }
-            Depth.Value = Profiles.Current.Depth;
-            MoveFiles.Checked = Profiles.Current.MoveFiles;
-            MoveFilesAndDirectories.Checked = Profiles.Current.MoveFilesAndDirectories;
-            CreateDirectoryAndFileTree.Checked = Profiles.Current.CreateDirectoryAndFileTree;
-            FatFiles.Checked = Profiles.Current.FatFiles;
-            TurnLongPathSupportOff.Checked = Profiles.Current.TurnLongPathSupportOff;
-            CopySymbolicLink.Checked = Profiles.Current.CopySymobolicLink;
-            DoNotUseWindowsCopyOffload.Checked = Profiles.Current.DoNotUseWindowsCopyOffload;
-            CheckPerFile.Checked = Profiles.Current.CheckPerFile;
-            if (Profiles.Current.EnableEfsRawMode || Profiles.Current.InterPacketGap > 0)
+            Depth.Value = ProfileManager.Current.Depth;
+            MoveFiles.Checked = ProfileManager.Current.MoveFiles;
+            MoveFilesAndDirectories.Checked = ProfileManager.Current.MoveFilesAndDirectories;
+            CreateDirectoryAndFileTree.Checked = ProfileManager.Current.CreateDirectoryAndFileTree;
+            FatFiles.Checked = ProfileManager.Current.FatFiles;
+            TurnLongPathSupportOff.Checked = ProfileManager.Current.TurnLongPathSupportOff;
+            CopySymbolicLink.Checked = ProfileManager.Current.CopySymobolicLink;
+            DoNotUseWindowsCopyOffload.Checked = ProfileManager.Current.DoNotUseWindowsCopyOffload;
+            CheckPerFile.Checked = ProfileManager.Current.CheckPerFile;
+            if (ProfileManager.Current.EnableEfsRawMode || ProfileManager.Current.InterPacketGap > 0)
             {
-                UseEfwRawMode.Checked = Profiles.Current.EnableEfsRawMode;
-                InterPacketGap.Value = Profiles.Current.InterPacketGap;
+                UseEfwRawMode.Checked = ProfileManager.Current.EnableEfsRawMode;
+                InterPacketGap.Value = ProfileManager.Current.InterPacketGap;
                 MultiThreadedCopies.Enabled = false;
             }
-            else if (Profiles.Current.MultiThreadedCopiesCount > 0)
+            else if (ProfileManager.Current.MultiThreadedCopiesCount > 0)
             {
-                MultiThreadedCopies.Value = Profiles.Current.MultiThreadedCopiesCount;
+                MultiThreadedCopies.Value = ProfileManager.Current.MultiThreadedCopiesCount;
                 UseEfwRawMode.Enabled = false;
                 InterPacketGap.Enabled = false;
             }
-            RetryCount.Value = Profiles.Current.RetryCount;
-            RetryWaitTime.Value = Profiles.Current.RetryWaitTime;
+            RetryCount.Value = ProfileManager.Current.RetryCount;
+            RetryWaitTime.Value = ProfileManager.Current.RetryWaitTime;
 
             // File Copy Flags
-            if (Profiles.Current.FileCopyFlags.Data) FileCopyFlags.SetItemChecked(0, true);
-            if (Profiles.Current.FileCopyFlags.Attributes) FileCopyFlags.SetItemChecked(1, true);
-            if (Profiles.Current.FileCopyFlags.TimeStamps) FileCopyFlags.SetItemChecked(2, true);
-            if (Profiles.Current.FileCopyFlags.Security) FileCopyFlags.SetItemChecked(3, true);
-            if (Profiles.Current.FileCopyFlags.Owner) FileCopyFlags.SetItemChecked(4, true);
-            if (Profiles.Current.FileCopyFlags.Auditing) FileCopyFlags.SetItemChecked(5, true);
+            if (ProfileManager.Current.FileCopyFlags.Data) FileCopyFlags.SetItemChecked(0, true);
+            if (ProfileManager.Current.FileCopyFlags.Attributes) FileCopyFlags.SetItemChecked(1, true);
+            if (ProfileManager.Current.FileCopyFlags.TimeStamps) FileCopyFlags.SetItemChecked(2, true);
+            if (ProfileManager.Current.FileCopyFlags.Security) FileCopyFlags.SetItemChecked(3, true);
+            if (ProfileManager.Current.FileCopyFlags.Owner) FileCopyFlags.SetItemChecked(4, true);
+            if (ProfileManager.Current.FileCopyFlags.Auditing) FileCopyFlags.SetItemChecked(5, true);
 
             // Directory Copy Flags
-            if (Profiles.Current.DirectoryCopyFlags.Data) DirectoryCopyFlags.SetItemChecked(0, true);
-            if (Profiles.Current.DirectoryCopyFlags.Attributes) DirectoryCopyFlags.SetItemChecked(1, true);
-            if (Profiles.Current.DirectoryCopyFlags.TimeStamps) DirectoryCopyFlags.SetItemChecked(2, true);
+            if (ProfileManager.Current.DirectoryCopyFlags.Data) DirectoryCopyFlags.SetItemChecked(0, true);
+            if (ProfileManager.Current.DirectoryCopyFlags.Attributes) DirectoryCopyFlags.SetItemChecked(1, true);
+            if (ProfileManager.Current.DirectoryCopyFlags.TimeStamps) DirectoryCopyFlags.SetItemChecked(2, true);
 
             // Add Attributes
-            if (Profiles.Current.AddAttributes.ReadOnly) AddAttributes.SetItemChecked(0, true);
-            if (Profiles.Current.AddAttributes.Archive) AddAttributes.SetItemChecked(1, true);
-            if (Profiles.Current.AddAttributes.System) AddAttributes.SetItemChecked(2, true);
-            if (Profiles.Current.AddAttributes.Hidden) AddAttributes.SetItemChecked(3, true);
-            if (Profiles.Current.AddAttributes.Compressed) AddAttributes.SetItemChecked(4, true);
-            if (Profiles.Current.AddAttributes.NotContentIndexed) AddAttributes.SetItemChecked(5, true);
-            if (Profiles.Current.AddAttributes.Encrypted) AddAttributes.SetItemChecked(6, true);
-            if (Profiles.Current.AddAttributes.Temporary) AddAttributes.SetItemChecked(7, true);
-            if (Profiles.Current.AddAttributes.Offline) AddAttributes.SetItemChecked(8, true);
+            if (ProfileManager.Current.AddAttributes.ReadOnly) AddAttributes.SetItemChecked(0, true);
+            if (ProfileManager.Current.AddAttributes.Archive) AddAttributes.SetItemChecked(1, true);
+            if (ProfileManager.Current.AddAttributes.System) AddAttributes.SetItemChecked(2, true);
+            if (ProfileManager.Current.AddAttributes.Hidden) AddAttributes.SetItemChecked(3, true);
+            if (ProfileManager.Current.AddAttributes.Compressed) AddAttributes.SetItemChecked(4, true);
+            if (ProfileManager.Current.AddAttributes.NotContentIndexed) AddAttributes.SetItemChecked(5, true);
+            if (ProfileManager.Current.AddAttributes.Encrypted) AddAttributes.SetItemChecked(6, true);
+            if (ProfileManager.Current.AddAttributes.Temporary) AddAttributes.SetItemChecked(7, true);
+            if (ProfileManager.Current.AddAttributes.Offline) AddAttributes.SetItemChecked(8, true);
 
             // Remove Attributes
-            if (Profiles.Current.RemoveAttributes.ReadOnly) RemoveAttributes.SetItemChecked(0, true);
-            if (Profiles.Current.RemoveAttributes.Archive) RemoveAttributes.SetItemChecked(1, true);
-            if (Profiles.Current.RemoveAttributes.System) RemoveAttributes.SetItemChecked(2, true);
-            if (Profiles.Current.RemoveAttributes.Hidden) RemoveAttributes.SetItemChecked(3, true);
-            if (Profiles.Current.RemoveAttributes.Compressed) RemoveAttributes.SetItemChecked(4, true);
-            if (Profiles.Current.RemoveAttributes.NotContentIndexed) RemoveAttributes.SetItemChecked(5, true);
-            if (Profiles.Current.RemoveAttributes.Encrypted) RemoveAttributes.SetItemChecked(6, true);
-            if (Profiles.Current.RemoveAttributes.Temporary) RemoveAttributes.SetItemChecked(7, true);
-            if (Profiles.Current.RemoveAttributes.Offline) RemoveAttributes.SetItemChecked(8, true);
+            if (ProfileManager.Current.RemoveAttributes.ReadOnly) RemoveAttributes.SetItemChecked(0, true);
+            if (ProfileManager.Current.RemoveAttributes.Archive) RemoveAttributes.SetItemChecked(1, true);
+            if (ProfileManager.Current.RemoveAttributes.System) RemoveAttributes.SetItemChecked(2, true);
+            if (ProfileManager.Current.RemoveAttributes.Hidden) RemoveAttributes.SetItemChecked(3, true);
+            if (ProfileManager.Current.RemoveAttributes.Compressed) RemoveAttributes.SetItemChecked(4, true);
+            if (ProfileManager.Current.RemoveAttributes.NotContentIndexed) RemoveAttributes.SetItemChecked(5, true);
+            if (ProfileManager.Current.RemoveAttributes.Encrypted) RemoveAttributes.SetItemChecked(6, true);
+            if (ProfileManager.Current.RemoveAttributes.Temporary) RemoveAttributes.SetItemChecked(7, true);
+            if (ProfileManager.Current.RemoveAttributes.Offline) RemoveAttributes.SetItemChecked(8, true);
 
             // Events
             EnableRestartMode.CheckedChanged += new EventHandler(EnableRestartMode_CheckedChanged);
@@ -123,37 +123,37 @@ namespace SimpleCopy
 
         private void CopySubdirectories_CheckedChanged(object sender, EventArgs e)
         {
-            Profiles.Current.CopySubdirectories = CopySubdirectories.Checked;
+            ProfileManager.Current.CopySubdirectories = CopySubdirectories.Checked;
         }
 
         private void EnableBackupMode_CheckedChanged(object sender, EventArgs e)
         {
-            Profiles.Current.EnableBackupMode = EnableBackupMode.Checked;
+            ProfileManager.Current.EnableBackupMode = EnableBackupMode.Checked;
         }
 
         private void CopySubdirectoriesIncludingEmpty_CheckedChanged(object sender, EventArgs e)
         {
-            Profiles.Current.CopySubdirectoriesIncludingEmpty = CopySubdirectoriesIncludingEmpty.Checked;
+            ProfileManager.Current.CopySubdirectoriesIncludingEmpty = CopySubdirectoriesIncludingEmpty.Checked;
         }
 
         private void EnableRestartMode_CheckedChanged(object sender, EventArgs e)
         {
-            Profiles.Current.EnableRestartMode = EnableRestartMode.Checked;
+            ProfileManager.Current.EnableRestartMode = EnableRestartMode.Checked;
         }
 
         private void UseUnbufferedIo_CheckedChanged(object sender, EventArgs e)
         {
-            Profiles.Current.UseUnbufferedIo = UseUnbufferedIo.Checked;
+            ProfileManager.Current.UseUnbufferedIo = UseUnbufferedIo.Checked;
         }
 
         private void Purge_CheckedChanged(object sender, EventArgs e)
         {
-            Profiles.Current.Purge = Purge.Checked;
+            ProfileManager.Current.Purge = Purge.Checked;
         }
 
         private void Mirror_CheckedChanged(object sender, EventArgs e)
         {
-            bool enabled = Profiles.Current.Mirror = Mirror.Checked;
+            bool enabled = ProfileManager.Current.Mirror = Mirror.Checked;
 
             CopySubdirectories.Enabled = !enabled;
             //
@@ -166,7 +166,7 @@ namespace SimpleCopy
 
         private void FileFilter_TextChanged(object sender, EventArgs e)
         {
-            Profiles.Current.FileFilter = FileFilter.Text;
+            ProfileManager.Current.FileFilter = FileFilter.Text;
         }
 
         private void FileCopyFlags_SelectedValueChanged(object sender, EventArgs e)
@@ -176,27 +176,27 @@ namespace SimpleCopy
                 switch (i)
                 {
                     case 0:
-                        Profiles.Current.FileCopyFlags.Data = FileCopyFlags.GetItemChecked(i);
+                        ProfileManager.Current.FileCopyFlags.Data = FileCopyFlags.GetItemChecked(i);
                         break;
 
                     case 1:
-                        Profiles.Current.FileCopyFlags.Attributes = FileCopyFlags.GetItemChecked(i);
+                        ProfileManager.Current.FileCopyFlags.Attributes = FileCopyFlags.GetItemChecked(i);
                         break;
 
                     case 2:
-                        Profiles.Current.FileCopyFlags.TimeStamps = FileCopyFlags.GetItemChecked(i);
+                        ProfileManager.Current.FileCopyFlags.TimeStamps = FileCopyFlags.GetItemChecked(i);
                         break;
 
                     case 3:
-                        Profiles.Current.FileCopyFlags.Security = FileCopyFlags.GetItemChecked(i);
+                        ProfileManager.Current.FileCopyFlags.Security = FileCopyFlags.GetItemChecked(i);
                         break;
 
                     case 4:
-                        Profiles.Current.FileCopyFlags.Owner = FileCopyFlags.GetItemChecked(i);
+                        ProfileManager.Current.FileCopyFlags.Owner = FileCopyFlags.GetItemChecked(i);
                         break;
 
                     case 5:
-                        Profiles.Current.FileCopyFlags.Auditing = FileCopyFlags.GetItemChecked(i);
+                        ProfileManager.Current.FileCopyFlags.Auditing = FileCopyFlags.GetItemChecked(i);
                         break;
                 }
             }
@@ -209,27 +209,27 @@ namespace SimpleCopy
                 switch (i)
                 {
                     case 0:
-                        Profiles.Current.DirectoryCopyFlags.Data = DirectoryCopyFlags.GetItemChecked(i);
+                        ProfileManager.Current.DirectoryCopyFlags.Data = DirectoryCopyFlags.GetItemChecked(i);
                         break;
 
                     case 1:
-                        Profiles.Current.DirectoryCopyFlags.Attributes = DirectoryCopyFlags.GetItemChecked(i);
+                        ProfileManager.Current.DirectoryCopyFlags.Attributes = DirectoryCopyFlags.GetItemChecked(i);
                         break;
 
                     case 2:
-                        Profiles.Current.DirectoryCopyFlags.TimeStamps = DirectoryCopyFlags.GetItemChecked(i);
+                        ProfileManager.Current.DirectoryCopyFlags.TimeStamps = DirectoryCopyFlags.GetItemChecked(i);
                         break;
 
                     case 3:
-                        Profiles.Current.DirectoryCopyFlags.Security = DirectoryCopyFlags.GetItemChecked(i);
+                        ProfileManager.Current.DirectoryCopyFlags.Security = DirectoryCopyFlags.GetItemChecked(i);
                         break;
 
                     case 4:
-                        Profiles.Current.DirectoryCopyFlags.Owner = DirectoryCopyFlags.GetItemChecked(i);
+                        ProfileManager.Current.DirectoryCopyFlags.Owner = DirectoryCopyFlags.GetItemChecked(i);
                         break;
 
                     case 5:
-                        Profiles.Current.DirectoryCopyFlags.Auditing = DirectoryCopyFlags.GetItemChecked(i);
+                        ProfileManager.Current.DirectoryCopyFlags.Auditing = DirectoryCopyFlags.GetItemChecked(i);
                         break;
                 }
             }
@@ -242,39 +242,39 @@ namespace SimpleCopy
                 switch (i)
                 {
                     case 0:
-                        Profiles.Current.AddAttributes.ReadOnly = AddAttributes.GetItemChecked(i);
+                        ProfileManager.Current.AddAttributes.ReadOnly = AddAttributes.GetItemChecked(i);
                         break;
 
                     case 1:
-                        Profiles.Current.AddAttributes.Archive = AddAttributes.GetItemChecked(i);
+                        ProfileManager.Current.AddAttributes.Archive = AddAttributes.GetItemChecked(i);
                         break;
 
                     case 2:
-                        Profiles.Current.AddAttributes.System = AddAttributes.GetItemChecked(i);
+                        ProfileManager.Current.AddAttributes.System = AddAttributes.GetItemChecked(i);
                         break;
 
                     case 3:
-                        Profiles.Current.AddAttributes.Hidden = AddAttributes.GetItemChecked(i);
+                        ProfileManager.Current.AddAttributes.Hidden = AddAttributes.GetItemChecked(i);
                         break;
 
                     case 4:
-                        Profiles.Current.AddAttributes.Compressed = AddAttributes.GetItemChecked(i);
+                        ProfileManager.Current.AddAttributes.Compressed = AddAttributes.GetItemChecked(i);
                         break;
 
                     case 5:
-                        Profiles.Current.AddAttributes.NotContentIndexed = AddAttributes.GetItemChecked(i);
+                        ProfileManager.Current.AddAttributes.NotContentIndexed = AddAttributes.GetItemChecked(i);
                         break;
 
                     case 6:
-                        Profiles.Current.AddAttributes.Encrypted = AddAttributes.GetItemChecked(i);
+                        ProfileManager.Current.AddAttributes.Encrypted = AddAttributes.GetItemChecked(i);
                         break;
 
                     case 7:
-                        Profiles.Current.AddAttributes.Temporary = AddAttributes.GetItemChecked(i);
+                        ProfileManager.Current.AddAttributes.Temporary = AddAttributes.GetItemChecked(i);
                         break;
 
                     case 8:
-                        Profiles.Current.AddAttributes.Offline = AddAttributes.GetItemChecked(i);
+                        ProfileManager.Current.AddAttributes.Offline = AddAttributes.GetItemChecked(i);
                         break;
                 }
             }
@@ -287,39 +287,39 @@ namespace SimpleCopy
                 switch (i)
                 {
                     case 0:
-                        Profiles.Current.RemoveAttributes.ReadOnly = RemoveAttributes.GetItemChecked(i);
+                        ProfileManager.Current.RemoveAttributes.ReadOnly = RemoveAttributes.GetItemChecked(i);
                         break;
 
                     case 1:
-                        Profiles.Current.RemoveAttributes.Archive = RemoveAttributes.GetItemChecked(i);
+                        ProfileManager.Current.RemoveAttributes.Archive = RemoveAttributes.GetItemChecked(i);
                         break;
 
                     case 2:
-                        Profiles.Current.RemoveAttributes.System = RemoveAttributes.GetItemChecked(i);
+                        ProfileManager.Current.RemoveAttributes.System = RemoveAttributes.GetItemChecked(i);
                         break;
 
                     case 3:
-                        Profiles.Current.RemoveAttributes.Hidden = RemoveAttributes.GetItemChecked(i);
+                        ProfileManager.Current.RemoveAttributes.Hidden = RemoveAttributes.GetItemChecked(i);
                         break;
 
                     case 4:
-                        Profiles.Current.RemoveAttributes.Compressed = RemoveAttributes.GetItemChecked(i);
+                        ProfileManager.Current.RemoveAttributes.Compressed = RemoveAttributes.GetItemChecked(i);
                         break;
 
                     case 5:
-                        Profiles.Current.RemoveAttributes.NotContentIndexed = RemoveAttributes.GetItemChecked(i);
+                        ProfileManager.Current.RemoveAttributes.NotContentIndexed = RemoveAttributes.GetItemChecked(i);
                         break;
 
                     case 6:
-                        Profiles.Current.RemoveAttributes.Encrypted = RemoveAttributes.GetItemChecked(i);
+                        ProfileManager.Current.RemoveAttributes.Encrypted = RemoveAttributes.GetItemChecked(i);
                         break;
 
                     case 7:
-                        Profiles.Current.RemoveAttributes.Temporary = RemoveAttributes.GetItemChecked(i);
+                        ProfileManager.Current.RemoveAttributes.Temporary = RemoveAttributes.GetItemChecked(i);
                         break;
 
                     case 8:
-                        Profiles.Current.RemoveAttributes.Offline = RemoveAttributes.GetItemChecked(i);
+                        ProfileManager.Current.RemoveAttributes.Offline = RemoveAttributes.GetItemChecked(i);
                         break;
                 }
             }
@@ -327,47 +327,47 @@ namespace SimpleCopy
 
         private void MoveFiles_CheckedChanged(object sender, EventArgs e)
         {
-            Profiles.Current.MoveFiles = MoveFiles.Checked;
+            ProfileManager.Current.MoveFiles = MoveFiles.Checked;
         }
 
         private void MoveFilesAndDirectories_CheckedChanged(object sender, EventArgs e)
         {
-            Profiles.Current.MoveFilesAndDirectories = MoveFilesAndDirectories.Checked;
+            ProfileManager.Current.MoveFilesAndDirectories = MoveFilesAndDirectories.Checked;
         }
 
         private void CreateDirectoryAndFileTree_CheckedChanged(object sender, EventArgs e)
         {
-            Profiles.Current.CreateDirectoryAndFileTree = CreateDirectoryAndFileTree.Checked;
+            ProfileManager.Current.CreateDirectoryAndFileTree = CreateDirectoryAndFileTree.Checked;
         }
 
         private void FatFiles_CheckedChanged(object sender, EventArgs e)
         {
-            Profiles.Current.FatFiles = FatFiles.Checked;
+            ProfileManager.Current.FatFiles = FatFiles.Checked;
         }
 
         private void TurnLongPathSupportOff_CheckedChanged(object sender, EventArgs e)
         {
-            Profiles.Current.TurnLongPathSupportOff = TurnLongPathSupportOff.Checked;
+            ProfileManager.Current.TurnLongPathSupportOff = TurnLongPathSupportOff.Checked;
         }
 
         private void CopySymbolicLink_CheckedChanged(object sender, EventArgs e)
         {
-            Profiles.Current.CopySymobolicLink = CopySymbolicLink.Checked;
+            ProfileManager.Current.CopySymobolicLink = CopySymbolicLink.Checked;
         }
 
         private void DoNotUseWindowsCopyOffload_CheckedChanged(object sender, EventArgs e)
         {
-            Profiles.Current.DoNotUseWindowsCopyOffload = DoNotUseWindowsCopyOffload.Checked;
+            ProfileManager.Current.DoNotUseWindowsCopyOffload = DoNotUseWindowsCopyOffload.Checked;
         }
 
         private void CheckPerFile_CheckedChanged(object sender, EventArgs e)
         {
-            Profiles.Current.CheckPerFile = CheckPerFile.Checked;
+            ProfileManager.Current.CheckPerFile = CheckPerFile.Checked;
         }
 
         private void MultiThreadedCopies_ValueChanged(object sender, EventArgs e)
         {
-            Profiles.Current.MultiThreadedCopiesCount = (int)MultiThreadedCopies.Value;
+            ProfileManager.Current.MultiThreadedCopiesCount = (int)MultiThreadedCopies.Value;
 
             if (MultiThreadedCopies.Value > 0)
             {
@@ -383,7 +383,7 @@ namespace SimpleCopy
 
         private void InterPacketGap_ValueChanged(object sender, EventArgs e)
         {
-            Profiles.Current.InterPacketGap = (int)InterPacketGap.Value;
+            ProfileManager.Current.InterPacketGap = (int)InterPacketGap.Value;
 
             if (UseEfwRawMode.Checked || InterPacketGap.Value > 0)
             {
@@ -397,12 +397,12 @@ namespace SimpleCopy
 
         private void Depth_ValueChanged(object sender, EventArgs e)
         {
-            Profiles.Current.Depth = (int)Depth.Value;
+            ProfileManager.Current.Depth = (int)Depth.Value;
         }
 
         private void UseEfwRawMode_CheckedChanged(object sender, EventArgs e)
         {
-            Profiles.Current.EnableEfsRawMode = UseEfwRawMode.Checked;
+            ProfileManager.Current.EnableEfsRawMode = UseEfwRawMode.Checked;
 
             if (UseEfwRawMode.Checked || InterPacketGap.Value > 0)
             {
@@ -416,12 +416,12 @@ namespace SimpleCopy
 
         private void RetryCount_ValueChanged(object sender, EventArgs e)
         {
-            Profiles.Current.RetryCount = (int)RetryCount.Value;
+            ProfileManager.Current.RetryCount = (int)RetryCount.Value;
         }
 
         private void RetryWaitTime_ValueChanged(object sender, EventArgs e)
         {
-            Profiles.Current.RetryWaitTime = (int)RetryWaitTime.Value;
+            ProfileManager.Current.RetryWaitTime = (int)RetryWaitTime.Value;
         }
     }
 }
