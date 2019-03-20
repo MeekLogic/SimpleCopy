@@ -12,6 +12,7 @@ namespace SimpleCopy
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
+            ProfileName.Text = ProfileManager.CurrentName;
             FileFilter.Text = ProfileManager.Current.FileFilter;
             EnableRestartMode.Checked = ProfileManager.Current.EnableRestartMode;
             EnableBackupMode.Checked = ProfileManager.Current.EnableBackupMode;
@@ -422,6 +423,16 @@ namespace SimpleCopy
         private void RetryWaitTime_ValueChanged(object sender, EventArgs e)
         {
             ProfileManager.Current.RetryWaitTime = (int)RetryWaitTime.Value;
+        }
+
+        private void ProfileName_TextChanged(object sender, EventArgs e)
+        {
+            ProfileManager.CurrentName = ProfileName.Text;
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

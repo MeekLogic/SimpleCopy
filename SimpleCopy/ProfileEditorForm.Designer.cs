@@ -54,6 +54,10 @@
             this.UseEfwRawMode = new System.Windows.Forms.CheckBox();
             this.UseUnbufferedIo = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.RetryWaitTime = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.RetryCount = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
             this.CreateDirectoryAndFileTree = new System.Windows.Forms.CheckBox();
             this.MoveFilesAndDirectories = new System.Windows.Forms.CheckBox();
             this.MoveFiles = new System.Windows.Forms.CheckBox();
@@ -66,10 +70,9 @@
             this.FileFilter = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.RetryWaitTime = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
-            this.RetryCount = new System.Windows.Forms.NumericUpDown();
-            this.label10 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.ProfileName = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -77,19 +80,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.InterPacketGap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MultiThreadedCopies)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Depth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RetryWaitTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RetryCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Depth)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Location = new System.Drawing.Point(12, 23);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(647, 359);
@@ -410,6 +412,40 @@
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             // 
+            // RetryWaitTime
+            // 
+            this.RetryWaitTime.Location = new System.Drawing.Point(99, 292);
+            this.RetryWaitTime.Name = "RetryWaitTime";
+            this.RetryWaitTime.Size = new System.Drawing.Size(90, 20);
+            this.RetryWaitTime.TabIndex = 27;
+            this.RetryWaitTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(3, 294);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(83, 13);
+            this.label9.TabIndex = 26;
+            this.label9.Text = "Retry Wait Time";
+            // 
+            // RetryCount
+            // 
+            this.RetryCount.Location = new System.Drawing.Point(99, 266);
+            this.RetryCount.Name = "RetryCount";
+            this.RetryCount.Size = new System.Drawing.Size(90, 20);
+            this.RetryCount.TabIndex = 25;
+            this.RetryCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(3, 268);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(63, 13);
+            this.label10.TabIndex = 24;
+            this.label10.Text = "Retry Count";
+            // 
             // CreateDirectoryAndFileTree
             // 
             this.CreateDirectoryAndFileTree.AutoSize = true;
@@ -531,45 +567,42 @@
             this.tabPage2.Text = "File Selection";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // RetryWaitTime
+            // button1
             // 
-            this.RetryWaitTime.Location = new System.Drawing.Point(99, 292);
-            this.RetryWaitTime.Name = "RetryWaitTime";
-            this.RetryWaitTime.Size = new System.Drawing.Size(90, 20);
-            this.RetryWaitTime.TabIndex = 27;
-            this.RetryWaitTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(584, 388);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Close";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
-            // label9
+            // ProfileName
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 294);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(83, 13);
-            this.label9.TabIndex = 26;
-            this.label9.Text = "Retry Wait Time";
+            this.ProfileName.Location = new System.Drawing.Point(477, 12);
+            this.ProfileName.Name = "ProfileName";
+            this.ProfileName.Size = new System.Drawing.Size(178, 20);
+            this.ProfileName.TabIndex = 2;
+            this.ProfileName.TextChanged += new System.EventHandler(this.ProfileName_TextChanged);
             // 
-            // RetryCount
+            // label11
             // 
-            this.RetryCount.Location = new System.Drawing.Point(99, 266);
-            this.RetryCount.Name = "RetryCount";
-            this.RetryCount.Size = new System.Drawing.Size(90, 20);
-            this.RetryCount.TabIndex = 25;
-            this.RetryCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 268);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(63, 13);
-            this.label10.TabIndex = 24;
-            this.label10.Text = "Retry Count";
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(441, 15);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(35, 13);
+            this.label11.TabIndex = 3;
+            this.label11.Text = "Name";
             // 
             // ProfileEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(671, 383);
+            this.ClientSize = new System.Drawing.Size(671, 419);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.ProfileName);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.tabControl1);
             this.MinimumSize = new System.Drawing.Size(687, 422);
             this.Name = "ProfileEditorForm";
@@ -585,10 +618,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.MultiThreadedCopies)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Depth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RetryWaitTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RetryCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Depth)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -636,5 +670,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown RetryCount;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox ProfileName;
+        private System.Windows.Forms.Label label11;
     }
 }

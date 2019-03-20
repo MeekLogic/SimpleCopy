@@ -11,24 +11,55 @@ namespace SimpleCopy
 
     internal static class ProfileManager
     {
-        private static readonly XmlDocument ProfilesXML = new XmlDocument();
-
-        private static Profile _Current;
-
         internal static event EventHandler<ProfileLoadedEventArgs> ProfileLoaded;
 
-        internal static Profile Current
-        {
-            get { return _Current; }
-            private set
-            {
-                // If a Profile is already loaded, let's make sure to dispose of it's resources
-                if (Current != null)
-                {
-                    Current.Dispose();
-                }
+        private static readonly XmlDocument ProfilesXML = new XmlDocument();
 
-                _Current = value;
+        private static string _CurrentName;
+
+        internal static string CurrentName
+        {
+            get { return _CurrentName; }
+            set
+            {
+                XmlElement ProfileXML = (XmlElement)ProfilesXML.SelectSingleNode("/Profiles/Profile[@Name='" + _CurrentName + "']");
+
+                ProfileXML.SetAttribute("Name", value);
+
+                Last = value;
+
+                _CurrentName = value;
+            }
+        }
+
+        private static Profile _Current;
+        internal static Profile Current { get { return _Current; } }
+
+        private static void SetCurrent(string Name, Profile _Profile, bool SetLast = true)
+        {
+            // Name
+            _CurrentName = Name;
+
+            // Profile
+            if (_Current != null)
+            {
+                _Current.Dispose();
+            }
+
+            _Current = _Profile;
+
+            // Update LastOpened element for Profile
+            XmlNode LastOpenedXMLElement = ProfilesXML.SelectSingleNode("/Profiles/Profile[@Name='" + Name + "']/LastOpened");
+            LastOpenedXMLElement.InnerText = DateTime.Now.ToUniversalTime().ToString();
+
+            // Should we set the last used Profile (by Name)
+            if (SetLast)
+            {
+                Last = Name;
+            }
+            else
+            {
+                Save();
             }
         }
 
@@ -55,7 +86,6 @@ namespace SimpleCopy
                 // Load profiles
                 ProfilesXML.Load(ProfilesFile);
 
-
                 // Load "Default" profile
                 Load(Last, false);
             }
@@ -74,6 +104,7 @@ namespace SimpleCopy
 
                 // Create "Default" profile (and save)
                 Create("Default");
+                Load("Default");
             }
         }
 
@@ -94,7 +125,7 @@ namespace SimpleCopy
             // Create Profile XML file
             if (!File.Exists(FileName))
             {
-                Current = Profile.Create(FileName);
+                Profile.Create(FileName);
             }
 
             // Create Profile element (adding Name as an attribute)
@@ -105,6 +136,10 @@ namespace SimpleCopy
             XmlElement FileXML = ProfilesXML.CreateElement("File");
             FileXML.InnerText = FileName;
             ProfileXMLElement.AppendChild(FileXML);
+
+            // Create LastOpened element in Profile
+            XmlElement LastUsedXML = ProfilesXML.CreateElement("LastOpened");
+            ProfileXMLElement.AppendChild(LastUsedXML);
 
             // Append new Profile element to ProfilesXML
             ProfilesXML.SelectSingleNode("/Profiles").AppendChild(ProfileXMLElement);
@@ -149,9 +184,7 @@ namespace SimpleCopy
                 return false;
             }
 
-            Current = Profile.Open(FileName);
-
-            // If Profile is loaded via Name it will be available via the paramaters
+            // If Profile is loaded via Name it will be available via the parameters
             if (string.IsNullOrEmpty(Name))
             {
                 Name = Path.GetFileNameWithoutExtension(FileName);
@@ -159,18 +192,14 @@ namespace SimpleCopy
                 Create(Name, FileName);
             }
 
-            // Should we set the last used Profile (by Name)
-            if (SetLast)
-            {
-                Last = Name;
-            }
+            // Set Current Profile, Current Profile LastOpened, & Last Profile (for next time)
+            SetCurrent(Name, Profile.Open(FileName), SetLast);
 
-            ProfileLoadedEventArgs e = new ProfileLoadedEventArgs
+            // Emit ProfileLoaded event
+            ProfileLoaded(null, new ProfileLoadedEventArgs
             {
                 ProfileLoaded = Current
-            };
-
-            ProfileLoaded(null, e);
+            });
 
             return true;
         }

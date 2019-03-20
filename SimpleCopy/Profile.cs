@@ -19,7 +19,7 @@ namespace SimpleCopy
                 _Profile = (Profile)SerializerXML.Deserialize(_FileStream);
             }
 
-            // Manually set FileName (necessary for saving)
+            // Manually set Name & FileName (necessary for saving)
             _Profile.FileName = FileName;
 
             return _Profile;
@@ -42,17 +42,6 @@ namespace SimpleCopy
             SaveTimer.Elapsed += SaveTimer_Elapsed;
         }
 
-        internal void Dispose()
-        {
-            if (SaveTimer.Enabled)
-            {
-                SaveTimer.Stop();
-                SaveTimer_Elapsed(this, null);
-            }
-
-            SaveTimer.Dispose();
-        }
-
         internal void Save()
         {
             // Do not attempt to save during initialization (terrible implementation, but it works)
@@ -61,7 +50,6 @@ namespace SimpleCopy
             // If timer is already running, let's stop it
             if (SaveTimer.Enabled) SaveTimer.Stop();
 
-            //
             SaveTimer.Start();
         }
 
@@ -74,6 +62,20 @@ namespace SimpleCopy
             }
         }
 
+        internal void Dispose()
+        {
+            if (SaveTimer.Enabled)
+            {
+                SaveTimer.Stop();
+                SaveTimer_Elapsed(this, null);
+            }
+
+            SaveTimer.Dispose();
+        }
+
+        [XmlAttribute]
+        public string Version { get; set; } = "0.0.0.1";
+
         [XmlIgnore]
         internal bool Initialized
         {
@@ -83,9 +85,9 @@ namespace SimpleCopy
         [XmlIgnore]
         internal string FileName { get; set; }
 
-        // Copy Options
-        private string _Source = null;
+        #region Copy Options
 
+        private string _Source = null;
         private string _Destination = null;
         private string _FileFilter = "*.*";
         private bool _CopySubdirectories = false;
@@ -132,12 +134,7 @@ namespace SimpleCopy
         private int _MultiThreadedCopiesCount = 0;
         private bool _DoNotCopyDirectoryInfo = false;
         private bool _DoNotUseWindowsCopyOffload = false;
-        private int _RetryCount = 10;
-        private int _RetryWaitTime = 30;
 
-        // File Selection Options
-
-        // Getter/Setters
         public string Source
         {
             get { return _Source; }
@@ -348,6 +345,15 @@ namespace SimpleCopy
             set { _DoNotUseWindowsCopyOffload = value; Save(); }
         }
 
+        #endregion Copy Options
+
+        #region Retry Options
+
+        // Rety options
+        private int _RetryCount = 10;
+
+        private int _RetryWaitTime = 30;
+
         public int RetryCount
         {
             get { return _RetryCount; }
@@ -359,5 +365,7 @@ namespace SimpleCopy
             get { return _RetryWaitTime; }
             set { _RetryWaitTime = value; Save(); }
         }
+
+        #endregion Retry Options
     }
 }

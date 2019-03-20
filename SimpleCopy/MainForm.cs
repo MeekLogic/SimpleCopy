@@ -282,10 +282,24 @@ namespace SimpleCopy
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _ProfileNamingForm = new ProfileNamingForm();
+            _ProfileNamingForm.NameChoosen += _ProfileNamingForm_NameChoosen;
             _ProfileNamingForm.FormClosed += _ProfileNamingForm_FormClosed;
             _ProfileNamingForm.Show();
 
             DisableControls();
+        }
+
+        private void _ProfileNamingForm_NameChoosen(object sender, NameChoosenEventArgs e)
+        {
+            ProfileManager.Create(e.Name);
+            ProfileManager.Load(e.Name);
+        }
+
+        private void _ProfileNamingForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _ProfileNamingForm = null;
+
+            EnableControls();
         }
 
         private void DisableControls()
@@ -306,19 +320,6 @@ namespace SimpleCopy
             SourceButton.Enabled = true;
             DestinationButton.Enabled = true;
             CopyButton.Enabled = true;
-        }
-
-        private void _ProfileNamingForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(_ProfileNamingForm.ChoosenName))
-            {
-                ProfileManager.Create(_ProfileNamingForm.ChoosenName);
-                ProfileManager.Load(_ProfileNamingForm.ChoosenName);
-            }
-
-            _ProfileNamingForm = null;
-
-            EnableControls();
         }
     }
 }

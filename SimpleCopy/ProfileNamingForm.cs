@@ -3,18 +3,29 @@ using System.Windows.Forms;
 
 namespace SimpleCopy
 {
-    public partial class ProfileNamingForm : Form
+    internal class NameChoosenEventArgs : EventArgs
     {
-        internal string ChoosenName { get; private set; }
+        internal string Name { get; set; }
+    }
 
-        public ProfileNamingForm()
+    internal partial class ProfileNamingForm : Form
+    {
+        internal event EventHandler<NameChoosenEventArgs> NameChoosen;
+
+        internal ProfileNamingForm()
         {
             InitializeComponent();
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            ChoosenName = textBox1.Text;
+            if (!string.IsNullOrEmpty(textBox1.Text))
+            {
+                NameChoosen(this, new NameChoosenEventArgs
+                {
+                    Name = textBox1.Text
+                });
+            }
 
             Close();
         }
