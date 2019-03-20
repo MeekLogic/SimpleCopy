@@ -1,21 +1,31 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace SimpleCopy
 {
     internal partial class MainForm : Form
     {
+        private readonly string WorkDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+
+        private readonly System.Timers.Timer SourceSaveTimer = new System.Timers.Timer(1000);
+        private readonly System.Timers.Timer DestinationSaveTimer = new System.Timers.Timer(1000);
+
+        private ProfileNamingForm _ProfileNamingForm;
         private ProfileEditorForm _ProfileEditorForm;
         private CopyForm _CopyForm;
-
-        //
-        private readonly string WorkDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
         internal MainForm()
         {
             InitializeComponent();
+
+            SourceSaveTimer.AutoReset = false;
+            DestinationSaveTimer.AutoReset = false;
+
+            SourceSaveTimer.Elapsed += SourceSaveTimer_Elapsed;
+            DestinationSaveTimer.Elapsed += DestinationSaveTimer_Elapsed;
         }
 
         protected override void Dispose(bool disposing)
@@ -35,15 +45,38 @@ namespace SimpleCopy
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            Profiles.ProfileLoaded += Profiles_ProfileLoaded;
+
             // Load last Profile
             Profiles.Init(WorkDir);
 
             // Init Job logger
             JobLogger.Init(WorkDir);
+        }
+
+        private void Profiles_ProfileLoaded(object sender, ProfileLoadedEventArgs e)
+        {
+            if (_ProfileEditorForm != null) _ProfileEditorForm.Close();
+
+            Source.TextChanged -= Source_TextChanged;
+            Destination.TextChanged -= Destination_TextChanged;
 
             // Set form control values
             Source.Text = Profiles.Current.Source;
             Destination.Text = Profiles.Current.Destination;
+
+            // Set default paths for file/folder browsers
+            if (!string.IsNullOrEmpty(Profiles.Current.Source))
+            {
+                SourceBrowser.SelectedPath = Profiles.Current.Source;
+            }
+
+            if (!string.IsNullOrEmpty(Profiles.Current.Destination))
+            {
+                DestinationBrowser.SelectedPath = Profiles.Current.Destination;
+            }
+
+            ProfileBrowser.InitialDirectory = Profiles.Dir;
 
             // Subscribe to form control events
             Source.TextChanged += new EventHandler(Source_TextChanged);
@@ -137,6 +170,24 @@ namespace SimpleCopy
 
         private void _CopyForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            if (SourceSaveTimer.Enabled)
+            {
+                SourceSaveTimer.Stop();
+
+                SourceSaveTimer_Elapsed(this, null);
+
+                SourceSaveTimer.Dispose();
+            }
+
+            if (DestinationSaveTimer.Enabled)
+            {
+                DestinationSaveTimer.Stop();
+
+                DestinationSaveTimer_Elapsed(this, null);
+
+                DestinationSaveTimer.Dispose();
+            }
+
             _CopyForm.Dispose();
             _CopyForm = null;
 
@@ -153,9 +204,11 @@ namespace SimpleCopy
 
         private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            DisableControls();
+
             if (ProfileBrowser.ShowDialog() == DialogResult.OK)
             {
-                if (Path.GetExtension(ProfileBrowser.FileName) != "xml")
+                if (Path.GetExtension(ProfileBrowser.FileName) != ".xml")
                 {
                     MessageBox.Show("Not a valid profile. File must have .xml extension.");
 
@@ -164,16 +217,108 @@ namespace SimpleCopy
 
                 Profiles.LoadFile(ProfileBrowser.FileName);
             }
+
+            EnableControls();
         }
 
         private void Source_TextChanged(object sender, EventArgs e)
         {
-            Profiles.Current.Source = Source.Text;
+            if (SourceSaveTimer.Enabled)
+            {
+                SourceSaveTimer.Stop();
+            }
+
+            SourceSaveTimer.Start();
+        }
+
+        private void SourceSaveTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            string Source = Utilities.RemoveTrailingSlash(this.Source.Text);
+
+            if (!Source.Equals(this.Source.Text))
+            {
+                BeginInvoke((Action)(() =>
+                {
+                    this.Source.TextChanged -= Source_TextChanged;
+
+                    this.Source.Text = Source;
+
+                    this.Source.TextChanged += Source_TextChanged;
+                }));
+            }
+
+            Profiles.Current.Source = Source;
         }
 
         private void Destination_TextChanged(object sender, EventArgs e)
         {
-            Profiles.Current.Destination = Destination.Text;
+            if (DestinationSaveTimer.Enabled)
+            {
+                DestinationSaveTimer.Stop();
+            }
+
+            DestinationSaveTimer.Start();
+        }
+
+        private void DestinationSaveTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            string Destination = Utilities.RemoveTrailingSlash(this.Destination.Text);
+
+            if (!Destination.Equals(this.Destination.Text))
+            {
+                BeginInvoke((Action)(() =>
+                {
+                    this.Destination.TextChanged -= Destination_TextChanged;
+
+                    this.Destination.Text = Destination;
+
+                    this.Destination.TextChanged += Destination_TextChanged;
+                }));
+            }
+
+            Profiles.Current.Destination = Destination;
+        }
+
+        private void NewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ProfileNamingForm = new ProfileNamingForm();
+            _ProfileNamingForm.FormClosed += _ProfileNamingForm_FormClosed;
+            _ProfileNamingForm.Show();
+
+            DisableControls();
+        }
+
+        private void DisableControls()
+        {
+            LoadToolStripMenuItem.Enabled = false;
+            newToolStripMenuItem.Enabled = false;
+            editToolStripMenuItem.Enabled = false;
+            SourceButton.Enabled = false;
+            DestinationButton.Enabled = false;
+            CopyButton.Enabled = false;
+        }
+
+        private void EnableControls()
+        {
+            LoadToolStripMenuItem.Enabled = true;
+            newToolStripMenuItem.Enabled = true;
+            editToolStripMenuItem.Enabled = true;
+            SourceButton.Enabled = true;
+            DestinationButton.Enabled = true;
+            CopyButton.Enabled = true;
+        }
+
+        private void _ProfileNamingForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(_ProfileNamingForm.ChoosenName))
+            {
+                Profiles.Create(_ProfileNamingForm.ChoosenName);
+                Profiles.Load(_ProfileNamingForm.ChoosenName);
+            }
+
+            _ProfileNamingForm = null;
+
+            EnableControls();
         }
     }
 }

@@ -42,7 +42,7 @@ namespace SimpleCopy
         {
             JobList _Temp = JobList;
 
-            int length = 1;
+            int length = 0;
             if (_Temp.Jobs != null)
             {
                 length = _Temp.Jobs.Length;

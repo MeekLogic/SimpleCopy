@@ -21,7 +21,6 @@
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RecentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProfileBrowser = new System.Windows.Forms.OpenFileDialog();
             this.label1 = new System.Windows.Forms.Label();
@@ -30,6 +29,7 @@
             this.Destination = new System.Windows.Forms.TextBox();
             this.SourceButton = new System.Windows.Forms.Button();
             this.DestinationButton = new System.Windows.Forms.Button();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,11 +47,11 @@
             // 
             // SourceBrowser
             // 
-            this.SourceBrowser.Description = "Select source folder.";
+            this.SourceBrowser.Description = "Select source folder to copy from.";
             // 
             // DestinationBrowser
             // 
-            this.DestinationBrowser.Description = "Select destination folder.";
+            this.DestinationBrowser.Description = "Select destination folder to copy to.";
             // 
             // MenuStrip
             // 
@@ -68,9 +68,9 @@
             // fileToolStripMenuItem1
             // 
             this.fileToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editToolStripMenuItem,
-            this.RecentToolStripMenuItem,
-            this.LoadToolStripMenuItem});
+            this.LoadToolStripMenuItem,
+            this.newToolStripMenuItem,
+            this.editToolStripMenuItem});
             this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
             this.fileToolStripMenuItem1.Size = new System.Drawing.Size(53, 22);
             this.fileToolStripMenuItem1.Text = "Profile";
@@ -78,26 +78,21 @@
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.EditToolStripMenuItem_Click);
-            // 
-            // RecentToolStripMenuItem
-            // 
-            this.RecentToolStripMenuItem.Name = "RecentToolStripMenuItem";
-            this.RecentToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
-            this.RecentToolStripMenuItem.Text = "Recent";
             // 
             // LoadToolStripMenuItem
             // 
             this.LoadToolStripMenuItem.Name = "LoadToolStripMenuItem";
-            this.LoadToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.LoadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.LoadToolStripMenuItem.Text = "Load";
             this.LoadToolStripMenuItem.Click += new System.EventHandler(this.LoadToolStripMenuItem_Click);
             // 
             // ProfileBrowser
             // 
-            this.ProfileBrowser.FileName = "profileBrowser";
+            this.ProfileBrowser.DefaultExt = "xml";
+            this.ProfileBrowser.RestoreDirectory = true;
             // 
             // label1
             // 
@@ -118,7 +113,6 @@
             this.Source.Name = "Source";
             this.Source.Size = new System.Drawing.Size(395, 20);
             this.Source.TabIndex = 23;
-            this.Source.TextChanged += new System.EventHandler(this.Source_TextChanged);
             // 
             // label2
             // 
@@ -139,7 +133,6 @@
             this.Destination.Name = "Destination";
             this.Destination.Size = new System.Drawing.Size(395, 20);
             this.Destination.TabIndex = 24;
-            this.Destination.TextChanged += new System.EventHandler(this.Destination_TextChanged);
             // 
             // SourceButton
             // 
@@ -164,6 +157,13 @@
             this.DestinationButton.Text = "Browse";
             this.DestinationButton.UseVisualStyleBackColor = true;
             this.DestinationButton.Click += new System.EventHandler(this.DestinationButton_Click);
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -200,7 +200,6 @@
         private System.Windows.Forms.MenuStrip MenuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem LoadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem RecentToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog ProfileBrowser;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox Source;
@@ -209,6 +208,7 @@
         private System.Windows.Forms.Button SourceButton;
         private System.Windows.Forms.Button DestinationButton;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
     }
 }
 

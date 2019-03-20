@@ -20,6 +20,16 @@ namespace SimpleCopy
             return removeInvalidChars.Replace(filename, replacement);
         }
 
+        internal static string RemoveTrailingSlash(string path)
+        {
+            if (path.EndsWith("\\"))
+            {
+                path = path.Remove(path.Length - 1, 1);
+            }
+
+            return path;
+        }
+
         // Returns the human-readable file size for an arbitrary, 64-bit file size
         // The default format is "0.### XB", e.g. "4.2 KB" or "1.434 GB"
         internal static string GetBytesReadable(long i)

@@ -1,8 +1,14 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Xml;
 
 namespace SimpleCopy
 {
+    internal class ProfileLoadedEventArgs : EventArgs
+    {
+        internal Profile ProfileLoaded { get; set; }
+    }
+
     internal static class Profiles
     {
         private static string ProfilesDir = "profiles";
@@ -11,6 +17,8 @@ namespace SimpleCopy
         private static readonly XmlDocument ProfilesXML = new XmlDocument();
 
         private static Profile _Current;
+
+        internal static event EventHandler<ProfileLoadedEventArgs> ProfileLoaded;
 
         internal static Profile Current
         {
@@ -26,6 +34,8 @@ namespace SimpleCopy
                 _Current = value;
             }
         }
+
+        internal static string Dir { get { return ProfilesDir; } }
 
         internal static void Init(string WorkDir)
         {
@@ -110,6 +120,13 @@ namespace SimpleCopy
             }
 
             Current = Profile.Open(FileName);
+
+            ProfileLoadedEventArgs e = new ProfileLoadedEventArgs
+            {
+                ProfileLoaded = Current
+            };
+
+            ProfileLoaded(null, e);
 
             return true;
         }

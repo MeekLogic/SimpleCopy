@@ -156,6 +156,8 @@ namespace SimpleCopy
         {
             BeginInvoke((Action)(() =>
             {
+                TaskbarProgress.SetValue(Handle, (int)e.CurrentFileProgress, 100);
+
                 CurrentFileProgress.Value = (int)e.CurrentFileProgress;
             }));
         }
@@ -192,18 +194,22 @@ namespace SimpleCopy
             {
                 _Stopwatch.Stop();
 
-                JobLogger.Log(new Job
-                {
-                    TotalTime = _Stopwatch.ElapsedMilliseconds,
-                    TotalFileSize = TotalFileSize,
-                    FileCount = FileCount
-                });
-
                 CurrentFileProgress.Value = 100;
+
+                TaskbarProgress.SetValue(Handle, 100, 100);
 
                 PauseResumeButton.Enabled = false;
 
                 Text = "Finished";
+
+                JobLogger.Log(new Job
+                {
+                    TotalMillseconds = _Stopwatch.ElapsedMilliseconds,
+                    TotalBytes = TotalFileSize,
+                    TotalFiles = FileCount
+                });
+
+                Activate();
             }));
         }
 

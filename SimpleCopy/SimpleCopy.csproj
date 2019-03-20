@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>SimpleCopy</RootNamespace>
     <AssemblyName>SimpleCopy</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -74,6 +74,12 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Profile.cs" />
+    <Compile Include="ProfileNamingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProfileNamingForm.Designer.cs">
+      <DependentUpon>ProfileNamingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Profiles.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,12 +89,16 @@
     <Compile Include="ProfileEditorForm.Designer.cs">
       <DependentUpon>ProfileEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TaskbarProgress.cs" />
     <Compile Include="Utilities.cs" />
     <EmbeddedResource Include="CopyForm.resx">
       <DependentUpon>CopyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProfileNamingForm.resx">
+      <DependentUpon>ProfileNamingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
