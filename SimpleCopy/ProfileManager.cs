@@ -15,38 +15,37 @@ namespace SimpleCopy
 
         private static readonly XmlDocument ProfilesXML = new XmlDocument();
 
-        private static string _CurrentName;
+        internal static string ProfilesDirectory { get; private set; } = "profiles";
 
-        internal static string CurrentName
+        internal static string ProfilesFile { get; private set; } = "profiles.xml";
+
+        #region Current Profile
+
+        internal static string CurrentName { get; private set; }
+
+        internal static Profile CurrentProfile { get; private set; }
+
+        internal static void SetCurrentName(string Name)
         {
-            get { return _CurrentName; }
-            set
-            {
-                XmlElement ProfileXML = (XmlElement)ProfilesXML.SelectSingleNode("/Profiles/Profile[@Name='" + _CurrentName + "']");
+            XmlElement ProfileXML = (XmlElement)ProfilesXML.SelectSingleNode("/Profiles/Profile[@Name='" + CurrentName + "']");
 
-                ProfileXML.SetAttribute("Name", value);
+            ProfileXML.SetAttribute("Name", Name);
 
-                Last = value;
-
-                _CurrentName = value;
-            }
+            CurrentName = Name;
         }
-
-        private static Profile _Current;
-        internal static Profile Current { get { return _Current; } }
 
         private static void SetCurrent(string Name, Profile _Profile, bool SetLast = true)
         {
             // Name
-            _CurrentName = Name;
+            CurrentName = Name;
 
             // Profile
-            if (_Current != null)
+            if (CurrentProfile != null)
             {
-                _Current.Dispose();
+                CurrentProfile.Dispose();
             }
 
-            _Current = _Profile;
+            CurrentProfile = _Profile;
 
             // Update LastOpened element for Profile
             XmlNode LastOpenedXMLElement = ProfilesXML.SelectSingleNode("/Profiles/Profile[@Name='" + Name + "']/LastOpened");
@@ -63,8 +62,23 @@ namespace SimpleCopy
             }
         }
 
-        internal static string ProfilesDirectory { get; private set; } = "profiles";
-        internal static string ProfilesFile { get; private set; } = "profiles.xml";
+        #endregion
+
+        internal static string Last
+        {
+            get
+            {
+                return ProfilesXML.SelectSingleNode("/Profiles/Last").InnerText;
+            }
+            private set
+            {
+                XmlNode LastProfile = ProfilesXML.SelectSingleNode("/Profiles/Last");
+
+                LastProfile.InnerText = value;
+
+                Save();
+            }
+        }
 
         internal static void Init(string WorkDir)
         {
@@ -147,22 +161,6 @@ namespace SimpleCopy
             Save();
         }
 
-        internal static string Last
-        {
-            get
-            {
-                return ProfilesXML.SelectSingleNode("/Profiles/Last").InnerText;
-            }
-            private set
-            {
-                XmlNode LastProfile = ProfilesXML.SelectSingleNode("/Profiles/Last");
-
-                LastProfile.InnerText = value;
-
-                Save();
-            }
-        }
-
         internal static bool Load(string Name, bool SetLast = true)
         {
             XmlNode FileXMLElement = ProfilesXML.SelectSingleNode("/Profiles/Profile[@Name='" + Name + "']/File");
@@ -198,7 +196,7 @@ namespace SimpleCopy
             // Emit ProfileLoaded event
             ProfileLoaded(null, new ProfileLoadedEventArgs
             {
-                ProfileLoaded = Current
+                ProfileLoaded = CurrentProfile
             });
 
             return true;

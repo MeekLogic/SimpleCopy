@@ -36,7 +36,7 @@ namespace SimpleCopy
                 if (components != null) components.Dispose();
 
                 // Manual disposal
-                if (ProfileManager.Current != null) ProfileManager.Current.Dispose();
+                if (ProfileManager.CurrentProfile != null) ProfileManager.CurrentProfile.Dispose();
                 if (_CopyForm != null) _CopyForm.Dispose();
             }
 
@@ -62,18 +62,18 @@ namespace SimpleCopy
             Destination.TextChanged -= Destination_TextChanged;
 
             // Set form control values
-            Source.Text = ProfileManager.Current.Source;
-            Destination.Text = ProfileManager.Current.Destination;
+            Source.Text = ProfileManager.CurrentProfile.Source;
+            Destination.Text = ProfileManager.CurrentProfile.Destination;
 
             // Set default paths for file/folder browsers
-            if (!string.IsNullOrEmpty(ProfileManager.Current.Source))
+            if (!string.IsNullOrEmpty(ProfileManager.CurrentProfile.Source))
             {
-                SourceBrowser.SelectedPath = ProfileManager.Current.Source;
+                SourceBrowser.SelectedPath = ProfileManager.CurrentProfile.Source;
             }
 
-            if (!string.IsNullOrEmpty(ProfileManager.Current.Destination))
+            if (!string.IsNullOrEmpty(ProfileManager.CurrentProfile.Destination))
             {
-                DestinationBrowser.SelectedPath = ProfileManager.Current.Destination;
+                DestinationBrowser.SelectedPath = ProfileManager.CurrentProfile.Destination;
             }
 
             ProfileBrowser.InitialDirectory = ProfileManager.ProfilesDirectory;
@@ -247,7 +247,7 @@ namespace SimpleCopy
                 }));
             }
 
-            ProfileManager.Current.Source = Source;
+            ProfileManager.CurrentProfile.Source = Source;
         }
 
         private void Destination_TextChanged(object sender, EventArgs e)
@@ -276,7 +276,7 @@ namespace SimpleCopy
                 }));
             }
 
-            ProfileManager.Current.Destination = Destination;
+            ProfileManager.CurrentProfile.Destination = Destination;
         }
 
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
